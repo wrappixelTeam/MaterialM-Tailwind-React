@@ -1,9 +1,10 @@
 import { FC, useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from "react-router";
 import { Customizer } from './shared/customizer/Customizer';
 import { CustomizerContext } from '../../context/CustomizerContext';
 import Sidebar from './vertical/sidebar/Sidebar';
 import Header from './vertical/header/Header';
+import ScrollToTop from 'src/components/shared/ScrollToTop';
 
 
 
@@ -17,7 +18,7 @@ const FullLayout: FC = () => {
         {/* Header/sidebar */}
 
         {activeLayout == "vertical" ? <Sidebar /> : null}
-        <div className="page-wrapper-sub flex flex-col w-full dark:bg-darkgray">
+        <div className="page-wrapper-sub flex flex-col w-full dark:bg-dark bg-lightgray">
           {/* Top Header  */}
           {activeLayout == "horizontal" ? (
             <Header layoutType="horizontal" />
@@ -39,7 +40,9 @@ const FullLayout: FC = () => {
               } ${activeLayout == "horizontal" ? "xl:mt-3" : ""}
               `}
             >
+              <ScrollToTop>
               <Outlet/>
+              </ScrollToTop>
             </div>
             <Customizer />
           </div>

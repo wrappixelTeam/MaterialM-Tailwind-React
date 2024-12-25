@@ -6,7 +6,6 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
 
     // Flowbite content
@@ -16,15 +15,15 @@ const config: Config = {
 
   theme: {
     fontFamily: {
-      sans: ['Manrope', 'system-ui', 'serif'], // Define a custom sans-serif font family
+      sans: ["Inter", 'sans-serif'], // Define a custom sans-serif font family
     },
     extend: {
       boxShadow: {
-        md: "0px 2px 4px -1px rgba(175, 182, 201, 0.2);",
+        md: "0px 1px 4px 0px rgba(133, 146, 173, 0.2)",
         lg: "0 1rem 3rem rgba(0, 0, 0, 0.175)",
         "dark-md":
           "rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.02) 0px 12px 24px -4px",
-        sm: "0 6px 24.2px -10px rgba(41, 52, 61, .22)",
+        sm: "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
         "btn-shadow": "box-shadow: rgba(0, 0, 0, .05) 0 9px 17.5px",
         tw:"rgba(175, 182, 201, 0.2) 0px 2px 4px -1px",
         btnshdw: "0 17px 20px -8px rgba(77, 91, 236, .231372549)",
@@ -34,15 +33,14 @@ const config: Config = {
         elevation4:"0px 12px 12px -6px rgba(0,0,0,0.15);"
       },
       borderRadius: {
-        sm: "6px",
+        sm: "7px",
         md: "9px",
         lg: "24px",
         tw: "12px",
-        bb: "20px",
       },
       container: {
         center: true,
-        padding: "20px",
+        padding: "30px",
       },
       letterSpacing: {
         tightest: "-.075em",
@@ -52,15 +50,6 @@ const config: Config = {
         wide: ".025em",
         wider: ".05em",
         widest: "1.5px",
-      },
-      gap: {
-        "30": "30px",
-      },
-      padding: {
-        "30": "30px",
-      },
-      margin: {
-        "30": "30px",
       },
       fontSize: {
         "15": "15px",
@@ -75,13 +64,22 @@ const config: Config = {
         "56": "56px",
         "64": "64px",
       },
+      gap: {
+        "30": "30px",
+      },
+      padding: {
+        "30": "30px",
+      },
+      margin: {
+        "30": "30px",
+      },
+
       colors: {
         cyan: {
           "500": "var(--color-primary)",
           "600": "var(--color-primary)",
           "700": "var(--color-primary)",
         },
-
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)",
         info: "var(--color-info)",
@@ -100,8 +98,7 @@ const config: Config = {
         muted: "var(--color-muted)",
         lighthover: "var(--color-lighthover)",
         surface: "var(--color-surface-ld)",
-        sky: "var(--color-sky)",
-        bodytext: "var(--color-bodytext)",
+
         //Dark Colors Variables
         dark: "var(--color-dark)",
         link: "var(--color-link)",

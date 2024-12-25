@@ -4,13 +4,18 @@ import { IconChevronDown } from '@tabler/icons-react';
 import ChildComponent from './ChildComponent';
 import { Icon } from "@iconify/react";
 import Menuitems from '../MenuData';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
+
+
 
 
 
 const Navigation = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [active, setActive] = useState(Menuitems[0].id);
+
+  const location = useLocation();
+const pathname = location.pathname;
 
   const handleDropdownEnter = (itemId: any) => {
     setActiveDropdown(itemId);
@@ -28,18 +33,29 @@ const Navigation = () => {
     <Navbar fluid={true} rounded={true} className="horizontal-nav bg-transparent dark:bg-transparent sm:px-0 xl:py-4 py-0">
       <Navbar.Collapse className="xl:block">
         <ul className="flex items-center space-x-3">
-          {Menuitems.map((item) => (
-            <li key={item.id} className="relative group">
+          {Menuitems.map((item) => {
+            let isActive = false;
+             item.children.find((item:any) => {
+              if(item?.children){
+                let nestedvalue =  item.children.find((value:any) => value.href === pathname);
+                if(nestedvalue){isActive = true}
+              }else{
+                let value = item.href === pathname;
+                if(value){isActive = true}
+              }
+            })
+            return (
+              <li key={item.id} className="relative group">
               {item.children ? (
                 <div
                   className="relative group"
                   onMouseEnter={() => handleDropdownEnter(item.id)}
                 >
                   <p
-                    className={`w-full ${active === item.id || activeDropdown === item.id
-                      ? 'text-white bg-primary shadow-btnshdw'
-                      : 'group-hover/nav:bg-primary group-hover/nav:text-primary'
-                      } py-2 px-3 rounded-md flex gap-3 items-center text-ld`}
+                    className={`w-full ${isActive
+                      ? 'text-primary bg-lightprimary'
+                      : 'group-hover:bg-lightprimary group-hover:text-primary'
+                      } py-2.5 px-5 rounded-lg flex gap-3 items-center text-ld`}
                   >
                     <Link to={item.href}>
                       <span className="flex gap-2 items-center w-full ">
@@ -60,6 +76,7 @@ const Navigation = () => {
                           <li key={child.id} className={` ${item.column == 4 ? 'mb-2' : ''} `}>
                             <ChildComponent
                               item={child}
+                              title={item.title}
                               isActive={activeDropdown === item.id}
                               handleMouseEnter={() => handleDropdownEnter(item.id)}
                               handleMouseLeave={handleDropdownLeave}
@@ -73,14 +90,15 @@ const Navigation = () => {
                 </div>
               ) : (
                 <Link to={item.href}>
-                  <p className={`py-2 px-3 rounded-md flex gap-3 items-center ${active === item.id ? 'bg-error text-white' : 'group-hover/nav:bg-primary group-hover/nav:text-primary'}`}>
+                  <p className={`py-2 px-3 rounded-lg flex gap-3 items-center ${active === item.id ? 'bg-error text-white' : 'group-hover/nav:bg-primary group-hover/nav:text-primary'}`}>
                     <Icon icon={`${item.icon}`} height={18} />
                     <span>{(`${item.title}`)}</span>
                   </p>
                 </Link>
               )}
             </li>
-          ))}
+            )
+          })}
         </ul>
       </Navbar.Collapse>
     </Navbar>

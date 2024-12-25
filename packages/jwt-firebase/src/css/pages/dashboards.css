@@ -29,6 +29,18 @@ body .apexcharts-tooltip.apexcharts-theme-dark {
     }
 }
 
+
+@media (min-width: 1024px){
+    .tables-position{
+        left: unset;
+        right: 100%;
+    }
+    html[dir="rtl"] .tables-position{
+        right: unset;
+        left: 100%;
+    }
+}
+
 body .apexcharts-tooltip-series-group {
     padding: 0 14px;
 }

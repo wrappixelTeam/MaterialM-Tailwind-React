@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+
+import { useNavigate } from 'react-router';
 import useAuth from './UseAuth';
 import { useEffect } from 'react';
 

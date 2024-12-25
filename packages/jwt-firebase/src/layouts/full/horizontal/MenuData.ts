@@ -18,7 +18,7 @@ const Menuitems = [
         id: uniqueId(),
         title: "Sample Page 2",
         icon: "solar:settings-minimalistic-line-duotone",
-        href: "/dashboards/analytics",
+        href: "/sample-page",
       },
     ],
   },

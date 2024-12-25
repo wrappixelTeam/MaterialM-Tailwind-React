@@ -1,14 +1,16 @@
 import  { useState } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import { Icon } from "@iconify/react";
-import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router";
+
 const ChildComponent = ({
   item,
   isActive,
   handleMouseEnter,
   handleMouseLeave,
   onClick,
+  title
 }: any) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
@@ -23,6 +25,7 @@ const ChildComponent = ({
     setIsSubMenuOpen(false);
   };
   const { t } = useTranslation();
+
   return (
     <div
       className="relative group"
@@ -48,7 +51,7 @@ const ChildComponent = ({
         </p>
       </Link>
       {isSubMenuOpen && item.children && (
-        <div className="absolute left-full rtl:right-full  top-0 mt-0 w-56 bg-white dark:bg-dark rounded-md shadow-lg ">
+        <div className={`absolute   top-0 mt-0 w-56 bg-white dark:bg-dark rounded-md shadow-lg ${title=="Tables"?"tables-position":"left-full rtl:right-full"}`}>
           <ul className="p-3 flex flex-col gap-2">
             {item.children.map((child: any) => (
               <li key={child.id}>
@@ -66,14 +69,14 @@ const ChildComponent = ({
                         child.href == pathname
                           ? "!text-primary "
                           : "group-hover/nav:bg-lightprimary group-hover/nav:text-primary"
-                      } py-1 px-3 rounded-md flex gap-2 items-center text-ld opacity-80 hover:text-primary`}
+                      } py-1 px-3 rounded-lg flex gap-2 items-center text-ld opacity-80 hover:text-primary`}
                     >
                       <span
                         className={` ${
                           child.href == pathname
                             ? "bg-primary dark:bg-primary"
                             : "bg-dark dark:bg-white"
-                        } group-hover/menu:bg-primary  rounded-md mx-1.5 h-[6px] w-[6px]`}
+                        } group-hover/menu:bg-primary  rounded-lg mx-1.5 h-[6px] w-[6px]`}
                       ></span>
                       {t(`${child.title}`)}
                     </p>
@@ -89,3 +92,5 @@ const ChildComponent = ({
 };
 
 export default ChildComponent;
+
+

@@ -64,7 +64,6 @@
     margin-left: 80px;
 }
 
-
 /* For Minisidebar Tooltip Fix */
 .miniicons [data-testid="flowbite-tooltip"] {
     width: max-content;
@@ -77,6 +76,7 @@
 .miniicons .flowbite-tooltip{
   position: fixed !important;
 }
+
 
 
 @media (min-width: 1199px) {

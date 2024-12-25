@@ -1,18 +1,16 @@
-import { useRoutes } from 'react-router-dom';
-import Router from './routes/Router';
-import ScrollToTop from './components/shared/ScrollToTop';
+import { RouterProvider } from "react-router";
+
 import { Flowbite, ThemeModeScript } from 'flowbite-react';
 import customTheme from './utils/theme/custom-theme';
-
+import router from "./routes/Router";
 
 function App() {
-  const routing = useRoutes(Router);
 
   return (
     <>
       <ThemeModeScript />
       <Flowbite theme={{ theme: customTheme }}>
-        <ScrollToTop>{routing}</ScrollToTop>
+      <RouterProvider router={router} />
       </Flowbite>
     </>
   );

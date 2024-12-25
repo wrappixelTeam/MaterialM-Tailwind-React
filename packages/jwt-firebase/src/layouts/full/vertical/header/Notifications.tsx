@@ -1,10 +1,9 @@
 
 import { Icon } from "@iconify/react";
 import { Badge, Button, Dropdown } from "flowbite-react";
-
 import * as Notification from "./Data";
 import SimpleBar from "simplebar-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 
 const Notifications = () => {
@@ -17,7 +16,7 @@ const Notifications = () => {
         dismissOnClick={false}
         renderTrigger={() => (
           <div className="relative">
-            <span className="h-10 w-10 hover:bg-lightprimary text-darklink  dark:text-white rounded-full flex justify-center items-center cursor-pointer group-hover/menu:bg-lightprimary group-hover/menu:text-primary">
+            <span className="h-10 w-10 hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer group-hover/menu:bg-lightprimary group-hover/menu:text-primary">
               <Icon icon="solar:bell-bing-line-duotone" height={20} />
             </span>
             <span className="rounded-full absolute end-1 top-1 bg-error text-[10px] h-4 w-4 flex justify-center items-center text-white">
@@ -47,10 +46,10 @@ const Notifications = () => {
                 </div>
                 <div className="ps-4 flex justify-between w-full">
                   <div className="w-3/4 text-start">
-                    <h5 className="mb-1 text-15 font-semibold group-hover/link:text-primary">
+                    <h5 className="mb-1 text-sm  group-hover/link:text-primary">
                       {links.title}
                     </h5>
-                    <div className="text-sm text-bodytext line-clamp-1">
+                    <div className="text-xs text-darklink line-clamp-1">
                       {links.subtitle}
                     </div>
                   </div>
@@ -66,7 +65,9 @@ const Notifications = () => {
         <div className="pt-5 px-6">
           <Button
             color={"primary"}
-            className="w-full"
+            className="w-full border border-primary text-primary hover:bg-primary hover:text-white"
+            pill
+            outline
           >
             See All Notifications
           </Button>

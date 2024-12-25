@@ -1,11 +1,13 @@
 
 import { Modal, TextInput } from "flowbite-react";
-import  { useState } from "react";
+import { useState } from "react";
 import { Icon } from "@iconify/react";
 import * as SearchData from "./Data";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+
+
 
 const Search = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -13,7 +15,7 @@ const Search = () => {
     <div>
       <button
         onClick={() => setOpenModal(true)}
-        className="h-10 w-10 text-darklink  dark:text-white text-sm hover:text-primary  hover:bg-lightprimary dark:hover:text-primary dark:hover:bg-darkminisidebar  rounded-full flex justify-center items-center cursor-pointer"
+        className="h-10 w-10 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer"
       >
         <Icon icon="solar:magnifer-line-duotone" height={20} />
       </button>
@@ -30,7 +32,7 @@ const Search = () => {
                 <h6 className="group-hover:text-primary mb-1 font-medium text-sm">
                   {links.title}
                 </h6>
-                <p className="text-xs text-bodytext">
+                <p className="text-xs text-link dark:text-darklink opacity-90 font-medium">
                   {links.href}
                 </p>
               </Link>

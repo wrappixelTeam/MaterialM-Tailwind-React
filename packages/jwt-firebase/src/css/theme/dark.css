@@ -1,8 +1,8 @@
 .dark .sidebar-nav .caption {
-    border-top: 1px solid var(--color-darkborder);
+    border-top: 1px dashed var(--color-darkborder);
 }
 
-.dark:root {
+.dark:root{
     --color-surface-ld: #1A2537;
 }
 
@@ -23,15 +23,7 @@
 }
 
 .dark .rbc-today {
-    background-color: var(--color-darkmuted) !important;
-}
-
-.dark .rbc-toolbar button:hover {
-    color: var(--color-white) !important;
-}
-
-.dark .rbc-header {
-    color: var(--color-white);
+    background-color: var(--color-darkmuted);
 }
 
 .dark .rbc-month-row+.rbc-month-row,
@@ -39,14 +31,6 @@
 .dark .rbc-header,
 .dark .rbc-month-view,
 .dark .rbc-toolbar button,
-.dark .rbc-time-view,
-.dark .rbc-timeslot-group,
-.dark .rbc-day-slot .rbc-time-slot,
-.dark .rbc-time-content,
-.dark .rbc-time-header-content,
-.dark .rbc-agenda-view table.rbc-agenda-table,
-.dark .rbc-agenda-view table.rbc-agenda-table tbody > tr + tr,
-.dark .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
 .dark .rbc-time-content>*+*>* {
     border-color: var(--color-darkborder) !important;
 }
@@ -73,13 +57,20 @@
 .dark .ql-container.ql-snow {
     border: 1px solid var(--color-darkborder) !important;
 }
-
-.dark .code-modal pre {
+.dark .code-modal pre{
     background-color: var(--color-darkmuted) !important;
     color: inherit !important;
 }
-
 /* For input Date */
 .dark ::-webkit-calendar-picker-indicator {
     filter: invert(1);
+  }
+
+  .dark .miniicons [data-testid="flowbite-tooltip"] {
+    width: max-content;
+    background-color: var(--color-primary);
+}
+
+.dark .miniicons [data-testid="flowbite-tooltip-arrow"] {
+    background-color: var(--color-primary);
 }

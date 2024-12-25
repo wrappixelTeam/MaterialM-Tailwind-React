@@ -8,8 +8,3 @@
     overflow: visible;
 }
 
-@media (min-width: 1300px) {
-    html[data-layout=vertical] .top-header {
-        width: calc(100% - 320px);
-    }
-}

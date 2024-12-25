@@ -15,7 +15,7 @@ const CustomCollapse: React.FC<{
     return (
       <div className={twMerge("transition-all duration-300")}>
         <div
-          className={twMerge("flex cursor-pointer mb-1 items-center justify-between rounded-lg px-4 py-[11px] gap-3 text-[15px] leading-[normal] font-normal text-link  hover:text-primary dark:text-white  dark:hover:text-primary",className)}
+          className={twMerge("flex cursor-pointer mb-1 items-center justify-between rounded-full px-4 py-[11px] gap-3 text-[15px] leading-[normal] font-normal text-link  hover:text-primary dark:text-white hover:bg-lightprimary dark:hover:bg-lightprimary dark:hover:text-primary",className)}
           onClick={onClick}
         >
           <div className="flex items-center gap-3">

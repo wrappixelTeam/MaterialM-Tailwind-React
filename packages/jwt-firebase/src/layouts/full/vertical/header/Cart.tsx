@@ -1,10 +1,9 @@
 
-import  { useContext } from "react";
+import { useContext } from "react";
 import { Icon } from "@iconify/react";
 import { Drawer } from "flowbite-react";
 import { useState } from "react";
-import { CustomizerContext } from "../../../../context/CustomizerContext";
-
+import { CustomizerContext } from "src/context/CustomizerContext";
 
 export const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);

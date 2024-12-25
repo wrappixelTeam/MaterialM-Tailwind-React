@@ -3,10 +3,10 @@
     --color-success:#00ceb6;
     --color-warning:#FFB900;
     --color-error:#FF6692;
-    --color-lightsuccess:#00ceb620;
-    --color-lighterror:#FF669220;
-    --color-lightinfo:#46caeb20;
-    --color-lightwarning:#FFB90020;
+    --color-lightsuccess:#00ceb625;
+    --color-lighterror:#FF669230;
+    --color-lightinfo:#46caeb25;
+    --color-lightwarning:#FFB90025;
     --color-white:#fff ;
 	--color-dark:#111c2d;
     --color-border:#e0e6eb;
@@ -19,9 +19,10 @@
     --color-lightgray:#F8FAFD;
     --color-lighthover:#F6F9FC;
     --color-darkgray:#1A2537;
-    --color-error-emphasis:#d5745b;
+    --color-error-emphasis:#d9577c;
     --color-warning-emphasis:#d9941a;
     --color-success-emphasis:#10bd9d;
+    --color-info-emphasis:#3cacc8;
     --color-surface-ld:#ffffff;
 }
 
@@ -29,7 +30,7 @@
     --color-primary: #00A1FF;
     --color-secondary: #8965E5;
     --color-primary-emphasis:#0091E5;   
-    --color-secondary-emphasis:#673ADE;
+    --color-secondary-emphasis:#7c57d9;
     --color-lightprimary:#00A1FF20;
     --color-lightsecondary:#8965E520; 
 }

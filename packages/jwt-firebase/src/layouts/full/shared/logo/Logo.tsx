@@ -1,6 +1,6 @@
 
 import LogoIcon from '/src/assets/images/logos/logo-icon.svg'
-import { Link } from 'react-router-dom';
+import { Link } from "react-router";
 
 const Logo = () => {
   return (

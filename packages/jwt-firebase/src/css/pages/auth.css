@@ -3,14 +3,13 @@
     top: -33%;
     left: -14%;
     border: 120px solid #0b2947;
-    height: 800px;
-    width: 800px;
+    height: 700px;
+    width: 700px;
     display: block;
     background: 0 0;
     border-radius: 100%;
     z-index: 1;
 }
-
 .circle-bottom {
     position: absolute;
     bottom: -4%;
@@ -21,12 +20,4 @@
     background: 0 0;
     z-index: 1;
     opacity: .5;
-}
-
-.boxed-auth [data-testid="carousel-left-control"],
-.boxed-auth [data-testid="carousel-right-control"] {
-    display: none;
-}
-.boxed-auth [data-testid="carousel"]{
-    height:250px;
 }

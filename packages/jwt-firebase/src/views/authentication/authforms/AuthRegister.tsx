@@ -1,9 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
-
 
 const AuthRegister = () => {
-  const navigate = useNavigate();
   return (
     <>
       <form className="mt-6">
@@ -40,7 +37,7 @@ const AuthRegister = () => {
             className="form-control"
           />
         </div> 
-        <Button color={'primary'} onClick={() => navigate("/")} className="rounded-md  w-full">Sign Up</Button> 
+        <Button color={'primary'} className="w-full">Sign Up</Button> 
         
       </form>
     </>

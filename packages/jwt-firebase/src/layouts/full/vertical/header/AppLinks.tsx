@@ -1,12 +1,13 @@
 
 import { Icon } from "@iconify/react";
-
-import  { useState } from "react";
+import { useState } from "react";
 import * as AppsData from "./Data";
-import { Drawer } from "flowbite-react";
+import Quicklinks from "./Quicklinks";
+import { IconHelp } from "@tabler/icons-react";
+import { Button, Drawer } from "flowbite-react";
 import SimpleBar from "simplebar-react";
-import MegamenuImg from "/src/assets/images/backgrounds/mega-dd-bg.jpg";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+
 const AppLinks = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
@@ -14,65 +15,79 @@ const AppLinks = () => {
   return (
     <>
       <div className="relative group ">
-        <span className="h-10 w-10 text-darklink  dark:text-white text-sm hover:text-primary  hover:bg-lightprimary dark:hover:text-primary dark:hover:bg-darkminisidebar  rounded-full flex justify-center items-center cursor-pointer group-hover:bg-lightprimary group-hover:text-primary xl:flex hidden">
+        <span className="h-10 w-10 hover:bg-lightprimary rounded-full justify-center items-center cursor-pointer group-hover:bg-lightprimary group-hover:text-primary xl:flex hidden">
           <Icon icon="solar:widget-3-line-duotone" height={20} />
         </span>
 
         <span
-          className="xl:hidden block h-10 w-10 hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer group-hover:bg-lightprimary group-hover:text-primary "
+          className="xl:hidden  h-10 w-10 hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer group-hover:bg-lightprimary group-hover:text-primary "
           onClick={() => setIsOpen(true)}
         >
           <Icon icon="solar:widget-3-line-duotone" height={20} />
         </span>
 
-        <div className="sm:w-[860px] w-screen dropdown  invisible  group-hover:visible absolute z-[10]">
+        <div className="sm:w-[900px] w-screen dropdown  invisible  group-hover:visible absolute">
           <Drawer
             open={isOpen}
             onClose={handleClose}
             position="right"
-            className="xl:relative xl:transform-none xl:h-auto xl:bg-transparent xl:z-[0] xl:w-[860px] w-64"
+            className="xl:relative xl:transform-none xl:h-auto xl:bg-transparent xl:z-[0] xl:w-[900px] w-64"
           >
             <SimpleBar className="md:h-auto h-[calc(100vh_-_50px)]">
               <div className="grid grid-cols-12 w-full">
-                <div className="xl:col-span-8 col-span-12 flex items-stretch p-6">
+                <div className="xl:col-span-8 col-span-12 flex items-stretch xl:pr-0 xl:px-0 px-5 py-5">
                   <div className="grid grid-cols-12 gap-3 w-full">
                     {AppsData.appsLink.map((links, index) => (
                       <div
-                        className="col-span-12 xl:col-span-6 "
+                        className="col-span-12 xl:col-span-6 flex items-stretch"
                         key={index}
                       >
-                        <Link
-                          to={links.href}
-                          className="flex gap-3 hover:text-primary group relative items-center"
-                        >
-                          <span
-                            className={`h-12 w-12 flex justify-center items-center rounded-tw ${links.iconbg}`}
-                          >
-                            <Icon
-                              icon={links.icon}
-                              height={24}
-                              className={`${links.iconcolor}`}
-                            />
-                          </span>
-                          <div>
-                            <h6 className="font-semibold text-15 text-ld hover:text-primary ">
-                              {links.title}
-                            </h6>
-                            <p className="text-13 text-bodytext">
-                              {links.subtext}
-                            </p>
-                          </div>
-                        </Link>
+                        <ul>
+                          <li>
+                            <Link
+                              to={links.href}
+                              className="flex gap-3 items-center hover:text-primary group relative"
+                            >
+                              <span className="bg-lighthover dark:bg-darkgray  h-10 w-10 flex justify-center items-center rounded-full">
+                                <img
+                                  src={links.avatar}
+                                  width={20}
+                                  height={20}
+                                  alt="materialm"
+                                />
+                              </span>
+                              <div>
+                                <h6 className="font-semibold text-sm text-ld hover:text-primary mb-1 ">
+                                  {links.title}
+                                </h6>
+                                <p className="text-xs text-link dark:text-darklink opacity-90 font-medium">
+                                  {links.subtext}
+                                </p>
+                              </div>
+                            </Link>
+                          </li>
+                        </ul>
                       </div>
                     ))}
+                    <div className="col-span-12 md:col-span-12 border-t border-border dark:border-darkborder hidden xl:flex items-stretch pt-4 pr-4">
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center text-dark dark:text-darklink">
+                          <i className="ti ti-help text-lg "></i>
+                          <Link
+                            to={"/theme-pages/faq"}
+                            className="text-sm font-semibold hover:text-primary ml-2 flex gap-2 items-center"
+                          >
+                            <IconHelp width={20} />
+                            Frequently Asked Questions
+                          </Link>
+                        </div>
+                        <Button color={"primary"}>Check</Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="xl:col-span-4 col-span-12  flex items-strech h-[300px] lg:block hidden">
-                  <img
-                    src={MegamenuImg}
-                    alt="image"
-                    className="h-full w-full"
-                  />
+                <div className="xl:col-span-4 col-span-12  flex items-strech">
+                  <Quicklinks />
                 </div>
               </div>
             </SimpleBar>

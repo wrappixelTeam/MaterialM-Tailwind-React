@@ -1,10 +1,53 @@
 import { createContext, useEffect, useReducer } from 'react';
+import useSWRMutation from 'swr/mutation'
 
 // utils
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import axios from 'src/utils/axios';
+
 import { isValidToken, setSession } from './Jwt';
+import useSWR from 'swr';
+
+const authFetch = async (url: string, options: RequestInit = {}) => {
+  const accessToken = localStorage.getItem('accessToken'); // Get token from localStorage
+
+  // Prepare headers
+  const headers = {
+    'Content-Type': 'application/json', 
+    ...options.headers,
+    ...(accessToken && { Authorization: `Bearer ${accessToken}` }), 
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+  }
+
+  return response.json();
+};
+
+const getFetcher = (url:string) => authFetch(url).then((res) => {
+  if(!res.ok){
+    throw new Error("Failed to fetch data")
+  }else{
+    return res.json();
+  }
+})
+const postfetcher = (url: string, { arg }: { arg: { email: string; password: string, firstName?: string, lastName?: string } }) =>
+  authFetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(arg),
+  }).then((res) => {
+    if (!res.ok) throw new Error('Something went wrong');
+    return res.json();
+  });
+
+
 
 // ----------------------------------------------------------------------
 export interface InitialStateType {
@@ -77,8 +120,8 @@ function AuthProvider({ children }: { children: React.ReactElement }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          const { data } = useSWR('/api/account/my-account', getFetcher);
+          const { user } = data;
 
           dispatch({
             type: 'INITIALIZE',
@@ -112,11 +155,10 @@ function AuthProvider({ children }: { children: React.ReactElement }) {
   }, []);
 
   const signin = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
+
+    const { trigger } = useSWRMutation('/api/account/login', postfetcher);
+    const data = await trigger({ email, password });
+    const { accessToken, user } = data;
     setSession(accessToken);
     dispatch({
       type: 'LOGIN',
@@ -127,13 +169,15 @@ function AuthProvider({ children }: { children: React.ReactElement }) {
   };
 
   const signup = async (email: string, password: string, firstName: string, lastName: string) => {
-    const response = await axios.post('/api/account/register', {
+    const { trigger } = useSWRMutation('/api/account/register', postfetcher);
+    const data = await trigger({
       email,
       password,
       firstName,
       lastName,
     });
-    const { accessToken, user } = response.data;
+
+    const { accessToken, user } = data;
 
     window.localStorage.setItem('accessToken', accessToken);
     dispatch({

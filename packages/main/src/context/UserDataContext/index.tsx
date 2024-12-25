@@ -1,8 +1,9 @@
 
 import  { createContext, useState, useEffect } from 'react';
-import axios from "../../utils/axios";
 import { PostType, profiledataType } from '../../types/apps/userProfile';
 import React from "react";
+import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 // Define context type
 export type UserDataContextType = {
@@ -52,24 +53,43 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         followingCount: 2659,
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const postsResponse = await axios.get('/api/data/postData');
-                const usersResponse = await axios.get('/api/data/users');
-                const galleryResponse = await axios.get('/api/data/gallery');
-                setPosts(postsResponse.data);
-                setUsers(usersResponse.data);
-                setGallery(galleryResponse.data);
-                setFollowers(usersResponse.data);
+    // Fetcher Functions
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
+    const getFetcher = (url:string) => fetch(url).then((res) => {
+        if(!res.ok){
+            throw new Error("Failed to fetch Data")
+        }else{
+            return res.json()
+        }
+    })
+
+    const postFetcher = (url:string , {arg}:{arg:any}) => fetch(url,{
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(arg)
+    }).then((res) => {
+        if(!res.ok){
+            throw new Error("Failed to add data")
+        }else{
+            return res.json()
+        }
+    })
+
+    // SWR Api Request
+
+    const {data:postData} = useSWR('/api/data/postData',getFetcher);
+    const {data:userData} = useSWR('/api/data/users',getFetcher);
+    const {data:galleryData} = useSWR('/api/data/gallery',getFetcher);
+    
+
+    useEffect(() => {
+        if(postData && userData && galleryData){
+            setPosts(postData[1]);
+            setUsers(userData[1]);
+            setGallery(galleryData[1]);
+            setFollowers(userData[1]);
+        }
+        setLoading(false);
     }, []);
 
 
@@ -98,18 +118,21 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     // Add comment to a post
+     const {trigger:addCommentTrigger}  = useSWRMutation('/api/data/posts/comments/add',postFetcher);
+
     const addComment = async (postId: number, comment: string) => {
         try {
-            const response = await axios.post('/api/data/posts/comments/add', {
+            const response = await addCommentTrigger({
                 postId,
                 comment,
-            });
+            }) ;
+             let status = response[0];
 
-            if (response.status === 200) {
-                const updatedPosts = response.data.posts;
+            if (status === 200) {
+                const updatedPosts = response.data[1].posts;
                 setPosts(updatedPosts);
             } else {
-                console.error('Failed to add comment:', response.data.message);
+                console.error('Failed to add comment:', response[1].message);
             }
         } catch (error) {
             console.error('Error adding comment:', error);
@@ -117,19 +140,22 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     // Add reply to a comment
+    const {trigger:addReplyTrigger} = useSWRMutation('/api/data/posts/replies/add',postFetcher);
+
     const addReply = async (postId: number, commentId: number, reply: string) => {
         try {
-            const response = await axios.post('/api/data/posts/replies/add', {
+            const response = await addReplyTrigger({
                 postId,
                 commentId,
                 reply,
             });
+            let status = response[0]
 
-            if (response.status === 200) {
-                const updatedPosts = response.data.posts;
+            if (status === 200) {
+                const updatedPosts = response[1].posts;
                 setPosts(updatedPosts);
             } else {
-                console.error('Failed to add reply:', response.data.message);
+                console.error('Failed to add reply:', response[1].message);
             }
         } catch (error) {
             console.error('Error adding reply:', error);
@@ -137,15 +163,17 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     // Function to toggle like/unlike a post
+    const {trigger:likePostTrigger} = useSWRMutation('/api/data/posts/like',postFetcher);
+
     const likePost = async (postId: number) => {
         try {
-            const response = await axios.post('/api/data/posts/like', { postId });
-
-            if (response.status === 200) {
-                const updatedPosts = response.data.posts;
+            const response = await likePostTrigger({ postId });
+             let status = response[0];
+            if (status === 200) {
+                const updatedPosts = response[1].posts;
                 setPosts(updatedPosts);
             } else {
-                console.error('Failed to like post:', response.data.message);
+                console.error('Failed to like post:', response[1].message);
             }
         } catch (error) {
             console.error('Error liking post:', error);
@@ -153,15 +181,17 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     // Function to toggle like/unlike a reply to a comment
+    const {trigger:likeReplyTrigger} = useSWRMutation('/api/data/posts/replies/like',postFetcher);
+
     const likeReply = async (postId: number, commentId: number) => {
         try {
-            const response = await axios.post('/api/data/posts/replies/like', { postId, commentId });
-
-            if (response.status === 200) {
-                const updatedPosts = response.data.posts;
+            const response = await likeReplyTrigger({ postId, commentId });
+             let status = response[0];
+            if (status === 200) {
+                const updatedPosts = response[1].posts;
                 setPosts(updatedPosts);
             } else {
-                console.error('Failed to like reply:', response.data.message);
+                console.error('Failed to like reply:', response[1].message);
             }
         } catch (error) {
             console.error('Error liking reply:', error);

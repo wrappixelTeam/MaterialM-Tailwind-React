@@ -2,7 +2,7 @@
 import { Card, Button } from "flowbite-react";
 import  { useContext } from "react";
 import { Icon } from "@iconify/react";
-import { CustomizerContext } from "@src/context/CustomizerContext";
+import { CustomizerContext } from "src/context/CustomizerContext";
 import React from "react";
 
 interface TitleCardProps {

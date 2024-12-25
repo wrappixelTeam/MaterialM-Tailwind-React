@@ -1,4 +1,3 @@
-
 import Navigation from "../navbar/Navigation";
 
 const HorizontalMenu = () => {

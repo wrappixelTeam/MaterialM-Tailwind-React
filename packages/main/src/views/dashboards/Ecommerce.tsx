@@ -1,4 +1,5 @@
 
+
 import AnnualProfit from "src/components/dashboards/ecommerce/AnnualProfit";
 import MarketingReport from "src/components/dashboards/ecommerce/MarketingReport";
 import Payments from "src/components/dashboards/ecommerce/Payments";
@@ -13,6 +14,7 @@ import Welcome from "src/components/dashboards/ecommerce/Welcome";
 
 
 const Ecommerce = () => {
+
   return (
     <>
       <div className="grid grid-cols-12 gap-30">

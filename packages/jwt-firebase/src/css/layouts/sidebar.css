@@ -1,10 +1,9 @@
 .minisidebar-icon {
     position: fixed;
     left: 0;
+    width: 80px;
     height: 100%;
     top: 0;
-    background-color: #f4f7fb;
-    width: 80px;
 }
 
 .menu-sidebar {
@@ -12,14 +11,23 @@
     width: 240px !important;
     background: var(--bs-white);
     top: 0;
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, .03);
     left: 80px;
     transition: left .4s ease-in-out;
+}
+
+.logo img {
+    margin: 0 auto;
+}
+
+.miniicons {
+    height: calc(100vh - 150px);
 }
 
 .sidebar-nav .caption {
     padding-top: 20px !important;
     margin-top: 20px !important;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px dashed var(--color-border);
 }
 
 .sidebar-nav .caption:first-child {
@@ -31,12 +39,7 @@
 .sidebar-dropdown li a {
     opacity: 0.9;
     padding: 8px 16px;
-    box-shadow: none !important;
 }
-.sidebar-dropdown li a.active {
-    opacity: 1;
-    color: var(--color-primary) !important;
-}   
 
 .sidebar-dropdown li a {
     background-color: transparent !important;
@@ -56,26 +59,25 @@
     width: 9px;
     margin: 0 4px;
 }
-.barnd-logo{
-    min-height: 72px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.nav-link{
-display: block;
-font-size: 14px;
-color: #98a4ae;
-text-decoration: none;
-background: 0 0;
-border: 0;
-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
-}
 
 [data-sidebar-type="mini-sidebar"] .page-wrapper {
     margin-left: 80px;
-
 }
+
+
+/* For Minisidebar Tooltip Fix */
+.miniicons [data-testid="flowbite-tooltip"] {
+    width: max-content;
+    background-color: var(--color-primary);
+}
+
+.miniicons [data-testid="flowbite-tooltip-arrow"] {
+    background-color: var(--color-primary);
+}
+.miniicons .flowbite-tooltip{
+  position: fixed !important;
+}
+
 
 @media (min-width: 1199px) {
     [data-sidebar-type="mini-sidebar"] .menu-sidebar {
@@ -89,17 +91,4 @@ transition: color .15s ease-in-out, background-color .15s ease-in-out, border-co
         display: none;
     }
 
-}
-
-/* For Minisidebar Tooltip Fix */
-.miniicons [data-testid="flowbite-tooltip"] {
-    width: max-content;
-    background-color: var(--color-secondary);
-}
-
-.miniicons [data-testid="flowbite-tooltip-arrow"] {
-    background-color: var(--color-secondary);
-}
-.miniicons .flowbite-tooltip{
-  position: fixed !important;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import axios from '@src/utils/axios';
+
 import { decodeToken } from 'react-jwt';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -21,10 +21,8 @@ const isValidToken = (accessToken: string) => {
 const setSession = (accessToken: string | null) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   } else {
     localStorage.removeItem('accessToken');
-    delete axios.defaults.headers.common.Authorization;
   }
 };
 

@@ -5,5 +5,5 @@
 
 [data-layout='horizontal'] .page-wrapper {
     margin-left: 0;
-    margin-right: 0;
+    transition: none;
 }

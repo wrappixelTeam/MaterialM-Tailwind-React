@@ -1,77 +1,69 @@
+
+
 //Apps Links Type & Data
 interface appsLinkType {
   href: string;
   title: string;
   subtext: string;
-  icon: string;
-  iconbg: string;
-  iconcolor: string;
+  avatar: string;
 }
+import chatImg from "/src/assets//images/svgs/icon-dd-chat.svg";
+import cartImg from "/src/assets//images/svgs/icon-dd-cart.svg";
+import invoiceImg from "/src/assets//images/svgs/icon-dd-invoice.svg";
+import dateImg from "/src/assets//images/svgs/icon-dd-date.svg";
+import mobileImg from "/src/assets//images/svgs/icon-dd-mobile.svg";
+import lifebuoyImg from "/src/assets//images/svgs/icon-dd-lifebuoy.svg";
+import messageBoxImg from "/src/assets//images/svgs/icon-dd-message-box.svg";
+import applicationImg from "/src/assets//images/svgs/icon-dd-application.svg";
 
 const appsLink: appsLinkType[] = [
   {
     href: "/apps/chats",
     title: "Chat Application",
     subtext: "New messages arrived",
-    icon: "solar:chat-line-bold-duotone",
-    iconbg: "bg-lightprimary",
-    iconcolor: "text-primary",
+    avatar: chatImg,
   },
   {
     href: "/apps/ecommerce/shop",
     title: "eCommerce App",
     subtext: "New stock available",
-    icon: "solar:widget-6-bold-duotone",
-    iconbg: "bg-lightsecondary",
-    iconcolor: "text-secondary",
+    avatar: cartImg,
   },
   {
     href: "/apps/notes",
     title: "Notes App",
     subtext: "To-do and Daily tasks",
-    icon: "solar:notes-bold-duotone",
-    iconbg: "bg-lightwarning",
-    iconcolor: "text-warning",
+    avatar: invoiceImg,
   },
   {
     href: "/apps/calendar",
     title: "Calendar App",
     subtext: "Get dates",
-    icon: "solar:calendar-bold-duotone",
-    iconbg: "bg-lighterror",
-    iconcolor: "text-error",
+    avatar: dateImg,
   },
   {
     href: "/apps/contacts",
     title: "Contact Application",
     subtext: "2 Unsaved Contacts",
-    icon: "solar:phone-calling-rounded-bold-duotone",
-    iconbg: "bg-lighterror",
-    iconcolor: "text-error",
+    avatar: mobileImg,
   },
   {
     href: "/apps/tickets",
     title: "Tickets App",
     subtext: "Submit tickets",
-    icon: "solar:ticket-sale-bold-duotone",
-    iconbg: "bg-lightprimary",
-    iconcolor: "text-primary",
+    avatar: lifebuoyImg,
   },
   {
     href: "/apps/email",
     title: "Email App",
     subtext: "Get new emails",
-    icon: "solar:letter-bold-duotone",
-    iconbg: "bg-lightsuccess",
-    iconcolor: "text-success",
+    avatar: messageBoxImg,
   },
   {
     href: "/apps/blog/post",
     title: "Blog App",
     subtext: "added new blog",
-    icon: "solar:chat-square-like-bold-duotone",
-    iconbg: "bg-lightsecondary",
-    iconcolor: "text-secondary",
+    avatar: applicationImg,
   },
 ];
 
@@ -148,13 +140,66 @@ const SearchLinks: SearchType[] = [
   },
 ];
 
+//   Message Data
+interface MessageType {
+  title: string;
+  avatar: any;
+  subtitle: string;
+  color: string;
+  time: string;
+}
+
+import avatar1 from "/src/assets/images/profile/user-6.jpg";
+import avatar2 from "/src/assets/images/profile/user-2.jpg";
+import avatar3 from "/src/assets/images/profile/user-3.jpg";
+import avatar4 from "/src/assets/images/profile/user-4.jpg";
+import avatar5 from "/src/assets/images/profile/user-5.jpg";
+
+const MessagesLink: MessageType[] = [
+  {
+    avatar: avatar1,
+    color: "bg-info",
+    title: "Michell Flintoff",
+    subtitle: "You: Yesterdy was great...",
+    time: "just now",
+  },
+  {
+    avatar: avatar2,
+    color: "bg-primary",
+    title: "Bianca Anderson",
+    subtitle: "Nice looking dress you...",
+    time: "5 mins ago",
+  },
+  {
+    avatar: avatar3,
+    color: "bg-secondary",
+    title: "Andrew Johnson",
+    subtitle: "Sent a photo",
+    time: "10 mins ago",
+  },
+  {
+    avatar: avatar4,
+    color: "bg-warning",
+    title: "Jolly Cummins",
+    subtitle: "If I don’t like something",
+    time: "5 days ago",
+  },
+  {
+    avatar: avatar5,
+    color: "bg-success",
+    title: "Josh Macklow",
+    subtitle: "$230 deducted from account",
+    time: "year ago",
+  },
+];
+
 //   Notification Data
 interface NotificationType {
   title: string;
   icon: any;
   subtitle: string;
   bgcolor: string;
-  color: string;
+  color:string;
   time: string;
 }
 
@@ -162,7 +207,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:widget-3-line-duotone",
     bgcolor: "bg-lighterror dark:bg-lighterror",
-    color: "text-error",
+    color:'text-error',
     title: "Launch Admin",
     subtitle: "Just see the my new admin!",
     time: "9:30 AM",
@@ -170,7 +215,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:calendar-line-duotone",
     bgcolor: "bg-lightprimary dark:bg-lightprimary",
-    color: "text-primary",
+    color:'text-primary',
     title: "Event Today",
     subtitle: "Just a reminder that you have event",
     time: "9:15 AM",
@@ -178,7 +223,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:settings-line-duotone",
     bgcolor: "bg-lightsecondary dark:bg-lightsecondary",
-    color: "text-secondary",
+    color:'text-secondary',
     title: "Settings",
     subtitle: "You can customize this template as you want",
     time: "4:36 PM",
@@ -186,7 +231,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:widget-4-line-duotone",
     bgcolor: "bg-lightwarning dark:bg-lightwarning ",
-    color: "text-warning",
+    color:'text-warning',
     title: "Launch Admin",
     subtitle: "Just see the my new admin!",
     time: "9:30 AM",
@@ -194,7 +239,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:calendar-line-duotone",
     bgcolor: "bg-lightprimary dark:bg-lightprimary",
-    color: "text-primary",
+    color:'text-primary',
     title: "Event Today",
     subtitle: "Just a reminder that you have event",
     time: "9:15 AM",
@@ -202,7 +247,7 @@ const Notification: NotificationType[] = [
   {
     icon: "solar:settings-line-duotone",
     bgcolor: "bg-lightsecondary dark:bg-lightsecondary",
-    color: "text-secondary",
+    color:'text-secondary',
     title: "Settings",
     subtitle: "You can customize this template as you want",
     time: "4:36 PM",
@@ -212,30 +257,45 @@ const Notification: NotificationType[] = [
 //  Profile Data
 interface ProfileType {
   title: string;
+  icon: any;
+  subtitle: string;
+  color: string;
+  bgcolor: string;
   url: string;
 }
 
 const profileDD: ProfileType[] = [
   {
+    icon: "solar:wallet-2-line-duotone",
+    bgcolor: "bg-lightprimary dark:bg-lightprimary",
+    color: "text-primary",
     title: "My Profile",
+    subtitle: "Account settings",
     url: "/apps/user-profile/profile",
   },
   {
-    title: "My Subscription",
-    url: "/theme-pages/pricing",
+    icon: "solar:inbox-line-duotone",
+    color: "text-success",
+    bgcolor: "bg-lightsuccess dark:bg-lightsuccess",
+    title: "My Notes",
+    subtitle: "My Daily Notes",
+    url: "/apps/notes",
   },
   {
-    title: "My Invoice",
-    url: "/apps/invoice",
-  },
-  {
-    title: "Account Settings",
-    url: "/theme-pages/account-settings",
-  },
-  {
-    title: "Sign Out",
-    url: "/auth/auth2/login",
+    icon: "solar:checklist-minimalistic-line-duotone",
+    color: "text-error",
+    bgcolor: "bg-lighterror dark:bg-lighterror",
+    title: "My Tasks",
+    subtitle: "To-do and Daily tasks",
+    url: "/apps/kanban",
   },
 ];
 
-export { appsLink, pageLinks, SearchLinks, Notification, profileDD };
+export {
+  appsLink,
+  pageLinks,
+  SearchLinks,
+  MessagesLink,
+  Notification,
+  profileDD,
+};

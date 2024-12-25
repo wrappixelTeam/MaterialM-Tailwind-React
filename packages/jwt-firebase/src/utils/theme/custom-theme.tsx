@@ -1,15 +1,14 @@
 const customTheme = {
   button: {
-    base: "group relative flex items-stretch justify-center text-center p-0.5 text-center font-medium rounded-md",
+    base: "group relative flex items-stretch justify-center text-center p-0.5 text-center font-medium",
     fullSized: "w-full",
     color: {
-      primary: "bg-primary text-white hover:bg-primaryemphasis",
-      secondary: "bg-secondary text-white ",
-      error: "bg-error text-white ",
-      warning: "bg-warning text-white ",
-      info: "bg-info text-white hover:bg-primaryemphasis",
-      sky: "bg-sky text-white hover:bg-primaryemphasis",
-      success: "bg-success text-white ",
+      primary: "bg-primary hover:bg-primaryemphasis text-white",
+      secondary: "bg-secondary hover:bg-secondaryemphasis text-white",
+      error: "bg-error hover:bg-erroremphasis text-white",
+      warning: "bg-warning hover:bg-warningemphasis text-white",
+      info: "bg-info text-white",
+      success: "bg-success hover:bg-successemphasis text-white",
       muted: "bg-muted text-dark dark:text-white dark:bg-darkmuted ",
       lighterror:
         "bg-lighterror dark:bg-darkerror text-error hover:bg-error hover:text-white",
@@ -25,14 +24,10 @@ const customTheme = {
         "bg-lightwarning dark:bg-darkwarning text-warning hover:bg-warning dark:hover:bg-warning hover:text-white",
       outlineprimary:
         "border border-primary bg-transparent text-primary hover:bg-primary dark:hover:bg-primary hover:text-white ",
-      outlinesecondary:
-        "border border-secondary bg-transparent text-secondary hover:bg-secondary dark:hover:bg-secondary hover:text-white ",
       outlinewhite:
-        "border border-white bg-transparent text-white hover:bg-white dark:hover:bg-white hover:text-primary ",
+        "border border-white bg-transparent text-white hover:bg-white dark:hover:bg-white hover:text-dark ",
       transparent:
         "bg-transparent hover:bg-lightprimary dark:hover:bg-darkprimary hover:text-primary p-0",
-      white:
-        "bg-white dark:bg-darkgray text-primary hover:bg-dark hover:text-white dark:text-white dark:hover:bg-dark font-semibold ",
     },
     outline: {
       color: {
@@ -49,23 +44,14 @@ const customTheme = {
       off: "",
       on: "transition-all duration-75 ease-in group-enabled:group-hover:bg-opacity-0 group-enabled:group-hover:text-inherit",
     },
-    pill: {
-      off: "rounded-md",
-      on: "rounded-md",
-    },
     inner: {
       base: "flex items-center gap-2 transition-all duration-150 justify-center",
-    },
-
-    size: {
-      xs: "px-3 py-1.5 text-xs ",
-      lg: "px-9 py-2.5 text-sm ",
     },
   },
 
   badge: {
     root: {
-      base: "flex h-fit w-fit items-center font-medium font-semibold",
+      base: "flex h-fit w-fit items-center font-medium text-xs",
       color: {
         primary: "bg-primary text-white",
         secondary: "bg-secondary text-white ",
@@ -80,13 +66,14 @@ const customTheme = {
         lightsecondary:
           "bg-lightsecondary dark:bg-lightsecondary text-secondary",
         lighterror: "bg-lighterror dark:bg-lighterror text-error",
+        lightgray: "bg-lightgray dark:bg-lightgray text-gray",
         white: "bg-white dark:bg-darkmuted text-dark dark:text-white",
         muted: "bg-muted dark:bg-darkmuted text-dark dark:text-white",
       },
     },
     icon: {
-      off: "rounded-sm px-2.5 py-1",
-      on: "rounded-sm py-[5px] px-[10px]",
+      off: "rounded-full px-2.5 py-1",
+      on: "rounded-full py-[5px] px-[10px] gap-1",
       size: {
         xs: "h-3 w-3",
         sm: "h-3.5 w-3.5",
@@ -101,7 +88,7 @@ const customTheme = {
 
   card: {
     root: {
-      base: "flex rounded-tw  shadow-md dark:shadow-none bg-white dark:bg-darkgray p-[30px] relative w-full break-words",
+      base: "flex rounded-lg dark:shadow-dark-md shadow-md bg-white dark:bg-darkgray p-6 relative w-full break-words",
       children: "flex h-full flex-col justify-center gap-2 p-0",
     },
   },
@@ -116,7 +103,7 @@ const customTheme = {
           "absolute end-2.5 top-3 flex h-8 w-8 items-center justify-center rounded-lg bg-lightgray dark:bg-darkmuted text-primary",
         closeIcon: "h-4 w-4",
         titleText:
-          "mb-4 inline-flex items-center text-base font-semibold text-bodytext",
+          "mb-4 inline-flex items-center text-base font-semibold text-ld",
       },
     },
   },
@@ -143,7 +130,7 @@ const customTheme = {
       popup: "border-b-0 p-2",
       title: "text-xl font-semibold text-dark dark:text-white leading-[normal]",
       close: {
-        base: "ltr:ml-auto rtl:mr-auto items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+        base: "outline-none ltr:ml-auto rtl:mr-auto items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
         icon: "h-5 w-5",
       },
     },
@@ -167,8 +154,8 @@ const customTheme = {
         },
         placement: "-4px",
       },
-      base: "z-10 w-fit  items-center focus:outline-none  shadow-md dark:shadow-dark-md text-start rounded-sm overflow-hidden",
-      content: "py-2 text-sm text-bodytext focus:outline-none",
+      base: "z-10 w-fit  items-center focus:outline-none  shadow-md dark:shadow-dark-md text-start rounded-sm",
+      content: "py-2 text-sm text-darklink focus:outline-none",
       header: "block px-4 py-2 text-ld",
       item: {
         container: "focus:outline-none",
@@ -201,7 +188,7 @@ const customTheme = {
     body: {
       base: "group/body",
       cell: {
-        base: "px-4 py-4 dark:bg-transparent",
+        base: "px-4 py-3 dark:bg-transparent",
       },
     },
     row: {
@@ -215,7 +202,7 @@ const customTheme = {
   progress: {
     base: "w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700",
     label: "mb-1 flex justify-between font-medium dark:text-white",
-    bar: "space-x-2 rounded-full text-center font-medium leading-none text-cyan-300 dark:text-cyan-100",
+    bar: "space-x-2 rounded-full text-center font-medium leading-none text-white",
     color: {
       success: "bg-success",
       secondary: "bg-secondary",
@@ -260,7 +247,7 @@ const customTheme = {
   breadcrumb: {
     root: {
       base: "",
-      list: "flex items-center justify-between w-full",
+      list: "flex items-center w-full",
     },
     item: {
       base: "group flex items-center",
@@ -282,7 +269,7 @@ const customTheme = {
       },
     },
     content: {
-      base: "p-5 first:rounded-t-lg last:rounded-b-lg text-sm text-bodytext",
+      base: "p-5 first:rounded-t-lg last:rounded-b-lg text-sm text-darklink",
     },
     title: {
       arrow: {
@@ -391,10 +378,26 @@ const customTheme = {
       lightsecondary:
         "bg-lightsecondary dark:bg-lightsecondary text-secondary border-secondary",
       lighterror: "bg-lighterror dark:bg-lighterror text-error border-error",
+      lightgray:
+        "bg-lightgray dark:bg-dark text-dark dark:text-white border-lightgray",
     },
     icon: "mr-3 inline h-5 w-5 flex-shrink-0",
     rounded: "rounded-lg",
     wrapper: "flex items-center",
+
+    closeButton: {
+      base: "-m-1.5 ml-auto inline-flex h-7 w-7 rounded-lg p-1.5 focus:ring-0",
+      icon: "h-4 w-4",
+      color: {
+        primary: "bg-transparent",
+        secondary: "bg-transparent",
+        success: "bg-transparent",
+        info: "bg-transparent",
+        warning: "bg-transparent",
+        error: "bg-transparent",
+        dark: "bg-transparent",
+      },
+    },
   },
 
   navbar: {
@@ -407,7 +410,7 @@ const customTheme = {
       },
     },
     link: {
-      base: "text-base py-1.5 px-4 hover:text-primary dark:hover:text-primary text-bodytext hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer ",
+      base: "text-base py-1.5 px-4 hover:text-primary dark:hover:text-primary text-darklink hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer ",
       active: {
         on: "bg-lightprimaary text-white dark:text-white",
         off: "text-dark dark:text-white",
@@ -439,7 +442,7 @@ const customTheme = {
   },
 
   textarea: {
-    base: "block w-full rounded-md border text-sm disabled:cursor-not-allowed disabled:opacity-50 bg-transparent",
+    base: "block w-full rounded-lg border text-sm disabled:cursor-not-allowed disabled:opacity-50 bg-transparent",
     colors: {
       gray: "border border-ld text-dark  focus:border-primary focus:ring-0  dark:text-white dark:placeholder-gray-400 dark:focus:border-primary dark:focus:ring-0",
     },
@@ -480,7 +483,7 @@ const customTheme = {
     text: {
       base: "inline-flex relative w-full items-center justify-center",
       hrLine: "my-3 h-px w-full border-0 bg-border dark:bg-darkborder",
-      text: "absolute left-1/2 -translate-x-1/2 bg-white px-3 md:text-[15px] text-[13px] font-normal text-bodytext dark:bg-darkgray dark:text-white",
+      text: "absolute left-1/2 -translate-x-1/2 bg-white px-3 text-base font-medium text-dark dark:bg-darkgray dark:text-white",
     },
   },
 
@@ -583,20 +586,20 @@ const customTheme = {
 
   sidebar: {
     root: {
-      inner: "bg-white dark:bg-transparent rounded-none",
+      inner: "bg-white dark:bg-darkgray rounded-none",
     },
     item: {
-      base: "flex items-center justify-center rounded-lg px-4 py-3 mb-1 gap-3 text-[15px] leading-[normal] font-normal text-link  hover:text-primary dark:text-white  dark:hover:text-primary",
+      base: "flex items-center justify-center rounded-lg px-4 py-3 mb-1 gap-3  !text-[15px] text-start  leading-[normal] font-normal text-link hover:bg-lightprimary hover:text-primary dark:text-white  dark:hover:text-primary",
       content: {
         base: "flex-1 whitespace-nowrap px-0",
       },
       active:
-        "bg-lightprimary !text-primary dark:bg-lightprimary !dark:text-primary ",
+        "bg-lightprimary !text-primary dark:bg-lightprimary !dark:text-primary",
     },
 
     collapse: {
       button:
-        "group flex gap-3 items-center  rounded-lg px-4 py-3 mb-1 text-[15px] leading-[normal] font-normal text-link  hover:text-primary dark:text-white w-full dark:hover:text-primary",
+        "group flex gap-3 items-center  rounded-lg px-4 py-3 mb-1 text-[15px] text-start truncate leading-[normal] font-normal text-link hover:bg-lightprimary hover:text-primary dark:text-white w-full dark:hover:text-primary",
       icon: {
         base: "h-6 w-6 text-link text-base",
       },
@@ -682,6 +685,36 @@ const customTheme = {
       },
     },
   },
+
+  pagination: {
+    base: "",
+    layout: {
+      table: {
+        base: "text-sm text-gray-700 dark:text-gray-400",
+        span: "font-semibold text-gray-900 dark:text-white",
+      },
+    },
+    pages: {
+      base: "xs:mt-0 mt-2 inline-flex items-center -space-x-px",
+      showIcon: "inline-flex",
+      previous: {
+        base: "ml-0 rounded-l-lg border border-ld  px-3 py-2 leading-tight  hover:bg-lightprimary hover:text-primary  dark:hover:bg-lightprimary dark:hover:text-primary",
+        icon: "h-5 w-5",
+      },
+      next: {
+        base: "rounded-r-lg border border-ld px-3 py-2 leading-tight  hover:bg-lightprimary hover:text-primary  dark:hover:bg-lightprimary dark:hover:text-primary",
+        icon: "h-5 w-5",
+      },
+      selector: {
+        base: "w-12 border border-ld py-2 leading-tight  hover:bg-lightprimary hover:text-primary  dark:hover:bg-lightprimary dark:hover:text-primary",
+        active:
+          "bg-primary text-white dark:bg-primary dark:text-white hover:text-white dark:hover:text-white",
+        disabled: "cursor-not-allowed opacity-50",
+      },
+    },
+  },
+  
+  
 };
 
 export default customTheme;

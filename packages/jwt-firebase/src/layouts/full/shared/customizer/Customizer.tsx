@@ -1,21 +1,43 @@
 
-
-import  { useContext } from "react";
+import React, { useContext } from "react";
 import { Button, Drawer, RangeSlider, Tooltip } from "flowbite-react";
 import { Icon } from "@iconify/react";
+
 import { useState } from "react";
 import { IconCheck, IconSettings } from "@tabler/icons-react";
 import SimpleBar from "simplebar-react";
-import { CustomizerContext } from "../../../../context/CustomizerContext";
-
+import { CustomizerContext } from "src/context/CustomizerContext";
 
 export const Customizer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
+  interface SliderProps {
+    value: number;
+    min: number;
+    max: number;
+    valueLabelDisplay: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  }
   const addAttributeToBody = (cvalue: any) => {
     document.body.setAttribute("data-color-theme", cvalue);
   };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+  const Slider: React.FC<SliderProps> = ({
+    value,
+    max,
+    onChange,
+  }) => (
+    <input
+      type="range"
+      value={value}
+      min={10}
+      max={max}
+      onChange={onChange}
+      className="slider w-full"
+    />
+  );
 
   const {
     activeDir,
@@ -39,7 +61,7 @@ export const Customizer = () => {
   const themeColors = [
     {
       id: 1,
-      bgColor: "#635BFF",
+      bgColor: "#00A1FF",
       disp: "BLUE_THEME",
     },
     {
@@ -98,12 +120,11 @@ export const Customizer = () => {
             <div className="flex gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent text-darklink btn-shadow border-ld  dark:text-white  hover:bg-primary hover:text-white rounded-md py-3 px-3 dark:hover:text-white 
-                ${
-                  activeMode === "light"
-                    ? "active text-primary bg-lightprimary hover:bg-lightprimary hover:text-primary "
-                    : "dark:hover:bg-darkminisidebar "
-                }`}
+                className={`border bg-transparent text-darklink btn-shadow border-ld  dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-3 dark:hover:text-white 
+                ${activeMode === "light"
+                    ? "active text-primary bg-lightprimary border-none"
+                    : ""
+                  }`}
                 onClick={() => {
                   setActiveMode("light");
                 }}
@@ -119,11 +140,10 @@ export const Customizer = () => {
               </Button>
               <Button
                 color={"primary"}
-                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-primary  dark:hover:text-white hover:text-white rounded-md py-3 px-3 ${
-                  activeMode === "dark"
-                    ? "active text-primary bg-lightprimary   dark:bg-darkminisidebar dark:text-white"
-                    : "hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-lightprimary hover:text-primary rounded-md py-3 px-3 ${activeMode === "dark"
+                  ? "active text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => {
                   setActiveMode("dark");
                 }}
@@ -144,11 +164,10 @@ export const Customizer = () => {
             <div className="flex gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent text-darklink dark:text-white border-ld  hover:bg-primary hover:text-white rounded-md py-3 px-3  dark:hover:text-white ${
-                  activeDir === "ltr"
-                    ? "text-primary bg-lightprimary dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent text-darklink dark:text-white border-ld  hover:bg-lightprimary hover:text-primary rounded-md py-3 px-3  dark:hover:text-white ${activeDir === "ltr"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => {
                   setActiveDir("ltr");
                 }}
@@ -164,11 +183,10 @@ export const Customizer = () => {
               </Button>
               <Button
                 color={"primary"}
-                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-primary hover:text-white rounded-md py-3 px-3 ${
-                  activeDir === "rtl"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-3 ${activeDir === "rtl"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => {
                   setActiveDir("rtl");
                 }}
@@ -186,14 +204,11 @@ export const Customizer = () => {
 
             {/* Theme Colors */}
             <h4 className="text-base mb-2">Theme Colors</h4>
-            <div className="flex flex-row flex-wrap gap-4 mb-7">
+            <div className="flex flex-row flex-wrap  gap-4 mb-7">
               {themeColors.map((theme, index) => (
                 <span
                   key={index}
-                  onClick={() => {
-                    addAttributeToBody(theme.disp);
-                    setActiveTheme(theme.disp)
-                  }}
+                  onClick={() => addAttributeToBody(theme.disp)}
                   className="border bg-transparent text-link dark:text-white border-ld py-5 px-6 rounded-md cursor-pointer "
                 >
                   <Tooltip
@@ -202,9 +217,9 @@ export const Customizer = () => {
                     animation="duration-500"
                   >
                     <label
-                      className=" h-6 w-6 rounded-full  cursor-pointer flex items-center justify-center"
+                      className=" h-6 w-6 rounded-full cursor-pointer flex items-center justify-center"
                       style={{ backgroundColor: theme.bgColor }}
-                     
+                      onClick={() => setActiveTheme(theme.disp)}
                     >
                       {activeTheme === theme.disp && (
                         <IconCheck className="text-white" size={18} />
@@ -220,11 +235,10 @@ export const Customizer = () => {
             <div className="flex flex-wrap  gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-primary hover:text-white rounded-md py-3 px-2  dark:hover:text-white ${
-                  activeLayout === "vertical"
-                    ? "text-primary bg-lightprimary dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2  dark:hover:text-white ${activeLayout === "vertical"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setActiveLayout("vertical")}
               >
                 <span className="flex items-center">
@@ -239,11 +253,10 @@ export const Customizer = () => {
               <Button
                 color={"primary"}
                 onClick={() => setActiveLayout("horizontal")}
-                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-primary hover:text-white rounded-md py-3 px-2 ${
-                  activeLayout === "horizontal"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2 ${activeLayout === "horizontal"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
               >
                 <span className="flex items-center">
                   <Icon
@@ -261,11 +274,10 @@ export const Customizer = () => {
             <div className="flex flex-wrap  gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-primary hover:text-white rounded-md py-3 px-2   dark:hover:text-white ${
-                  isLayout === "boxed"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2   dark:hover:text-white ${isLayout === "boxed"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setIsLayout("boxed")}
               >
                 <span className="flex items-center">
@@ -279,11 +291,10 @@ export const Customizer = () => {
               </Button>
               <Button
                 color={"primary"}
-                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-primary hover:text-white rounded-md py-3 px-2 ${
-                  isLayout === "full"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2 ${isLayout === "full"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setIsLayout("full")}
               >
                 <span className="flex items-center">
@@ -302,11 +313,10 @@ export const Customizer = () => {
             <div className="flex flex-wrap  gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-primary hover:text-white rounded-md py-3 px-2   dark:hover:text-white ${
-                  isCollapse == "full-sidebar"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2   dark:hover:text-white ${isCollapse == "full-sidebar"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setIsCollapse("full-sidebar")}
               >
                 <span className="flex items-center">
@@ -320,11 +330,10 @@ export const Customizer = () => {
               </Button>
               <Button
                 color={"primary"}
-                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-primary hover:text-white rounded-md py-3 px-2 ${
-                  isCollapse == "mini-sidebar"
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2 ${isCollapse == "mini-sidebar"
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setIsCollapse("mini-sidebar")}
               >
                 <span className="flex items-center">
@@ -343,11 +352,10 @@ export const Customizer = () => {
             <div className="flex flex-wrap  gap-4 mb-7">
               <Button
                 color={"primary"}
-                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-primary hover:text-white rounded-md py-3 px-2  ${
-                  !isCardShadow
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent btn-shadow border-ld text-darklink dark:text-white hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2  ${!isCardShadow
+                  ? "text-primary bg-lightprimary border-none"
+                  : ""
+                  }`}
                 onClick={() => setIsCardShadow(false)}
               >
                 <span className="flex items-center">
@@ -361,11 +369,8 @@ export const Customizer = () => {
               </Button>
               <Button
                 color={"primary"}
-                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-primary hover:text-white rounded-md py-3 px-2 dark:hover:text-white ${
-                  isCardShadow
-                    ? "text-primary bg-lightprimary  dark:text-white dark:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                    : "dark:hover:bg-darkminisidebar hover:bg-lightprimary hover:text-primary"
-                }`}
+                className={`border bg-transparent dark:text-white border-ld text-darklink hover:bg-lightprimary hover:text-primary rounded-md py-3 px-2 dark:hover:text-white ${isCardShadow ? "text-primary bg-lightprimary border-none" : ""
+                  }`}
                 onClick={() => setIsCardShadow(true)}
               >
                 <span className="flex items-center">
@@ -388,11 +393,7 @@ export const Customizer = () => {
               max={24}
               onChange={(event: any) => setIsBorderRadius(event.target.value)}
             />
-            <div>
-              <p className="dark:text-applinksubtext">
-                Current Value: {isBorderRadius}
-              </p>
-            </div>
+            <div>Current Value: {isBorderRadius}</div>
           </div>
         </SimpleBar>
       </Drawer>

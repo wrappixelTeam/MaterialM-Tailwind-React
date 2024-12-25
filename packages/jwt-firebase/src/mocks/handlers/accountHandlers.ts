@@ -1,6 +1,7 @@
 import {http , HttpResponse} from "msw"
+import { sign, verify } from "src/guards/jwt/Jwt";
 
-import { sign, verify } from '@src/guards/jwt/Jwt';
+
 
 
 const fakeRequest = (time: Date | any) => {

@@ -1,18 +1,19 @@
 import { Alert, Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
-import { Form, useFormik, FormikProvider } from 'formik';
+
+import { useFormik, FormikProvider } from 'formik';
 import * as Yup from 'yup';
-import useMounted from "@src/guards/authGuard/UseMounted";
-import useAuth from "@src/guards/authGuard/UseAuth";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
+import useMounted from "src/guards/authGuard/UseMounted";
+import useAuth from "src/guards/authGuard/UseAuth";
+import { Link } from "react-router";
 
 
 const AuthLogin = () => {
   
   const mounted = useMounted();
   const { signin } = useAuth();
-  const [isAlert, SetIsAlert] = useState(true);
+  const [_isAlert, SetIsAlert] = useState(true);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -47,7 +48,7 @@ const AuthLogin = () => {
       }
     },
   });
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, touched, handleSubmit,  getFieldProps } = formik;
   
   if(errors.submit){
     setTimeout(() => {
@@ -105,7 +106,7 @@ const AuthLogin = () => {
             Forgot Password ?
           </Link>
         </div>
-        <Button color={"primary"} type="submit" className="rounded-md w-full">
+        <Button color={"primary"} type="submit" className="!rounded-full w-full">
           Sign in
         </Button>
       </form>

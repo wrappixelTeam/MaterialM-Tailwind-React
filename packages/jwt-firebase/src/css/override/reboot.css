@@ -6,15 +6,10 @@
   background: var(--color-border) !important;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 .translate {
   transform: translate(-88%, 40px) !important;
   transition: 0.5s;
 }
-
 .translate-lng {
   transform: translate(-81%, 40px) !important;
   transition: 0.5s;
@@ -47,18 +42,14 @@ html {
   transition: opacity 150ms, transform 150ms;
 }
 
-.two-cols {
+.two-cols{
   -webkit-columns: 4;
   -moz-columns: 4;
   columns: 4;
 }
+
+
 [data-simplebar], .simplebar-offset, .simplebar-content,.simplebar-wrapper,.simplebar-mask,.simplebar-content-wrapper{
   outline:none !important;
   border:none !important
 }
-
-[type='checkbox'], [type='radio']{
-  color: var(--color-primary) !important;
-}
-
-

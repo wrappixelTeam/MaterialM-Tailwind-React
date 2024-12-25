@@ -10,18 +10,31 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^17.0.0",
     "@svgr/rollup": "8.1.0",
     "@tabler/icons-react": "^2.39.0",
+    "@tiptap/core": "^2.10.3",
+    "@tiptap/extension-code-block-lowlight": "^2.10.3",
+    "@tiptap/extension-image": "^2.10.3",
+    "@tiptap/extension-link": "^2.10.3",
+    "@tiptap/extension-table": "^2.9.1",
+    "@tiptap/extension-underline": "^2.10.3",
+    "@tiptap/react": "^2.10.3",
+    "@tiptap/starter-kit": "^2.10.3",
     "apexcharts": "3.49.1",
+    "axios": "^1.7.9",
+    "chance": "^1.1.12",
     "date-fns": "^4.1.0",
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
     "i18next": "^23.5.1",
     "lodash": "^4.17.21",
+    "lowlight": "^3.3.0",
     "moment": "^2.29.4",
     "prop-types": "^15.7.2",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^13.2.2",
     "react-router": "^7.0.2",
@@ -30,7 +43,8 @@
     "simplebar": "^6.2.7",
     "simplebar-react": "^3.2.4",
     "slick-carousel": "^1.8.1",
-    "stylis-plugin-rtl": "^2.1.1"
+    "stylis-plugin-rtl": "^2.1.1",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@iconify/react": "^5.1.0",
@@ -47,9 +61,15 @@
     "autoprefixer": "^10.4.20",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "msw": "^2.7.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "5.5.4",
     "vite": "^5.4.11"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

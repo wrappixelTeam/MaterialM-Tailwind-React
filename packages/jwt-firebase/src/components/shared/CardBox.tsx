@@ -1,7 +1,7 @@
 
 
 
-import { CustomizerContext } from "@src/context/CustomizerContext";
+import { CustomizerContext } from "src/context/CustomizerContext";
 import { Card } from "flowbite-react";
 import  { useContext } from "react";
 import React from "react";
