@@ -14,7 +14,7 @@ import sweet_purse from "/src/assets/images/products/Updated_Products/short-swee
 import soft_teddybear from "/src/assets/images/products/Updated_Products/teddybear.jpg";
 import little_toy from "/src/assets/images/products/Updated_Products/little-angel-toy.jpg";
 import dino_toy from "/src/assets/images/products/Updated_Products/toy-dino.jpg";
-import {http , HttpResponse} from "msw"
+
 
 const chance = new Chance();
 
@@ -225,46 +225,6 @@ const ProductsData = [
   },
 ];
 
-export const Ecommercehandlers = [
 
-  //  Mock api endpoint to get products
-  http.get('/api/data/eCommerce/ProductsData',() => {
-     return HttpResponse.json([200, ProductsData])
-  }),
-
-   // Mock endpoint to add a product to the cart
-   http.post("/api/data/eCommerce/add", async ({request}) => {
-      try{
-         const {productId} = await request.json() as {productId : number};
-         const productToAdd = ProductsData.find(product => product.id === productId);
-         if (!productToAdd) {
-          return HttpResponse.json([404, { error: 'Product not found' }]);
-        }
-        return HttpResponse.json([200, productToAdd]) ;
-      }catch(error){
-        return HttpResponse.json([500, { message: 'Internal server error' }])
-      }
-   })
-]
-
- 
-
-// mock.onGet('/api/data/eCommerce/ProductsData').reply(() => {
-//   return [200, ProductsData];
-// });
-
-
-// Endpoint to add a product to the cart
-// mock.onPost('/api/data/eCommerce/add').reply(config => {
-//   const { productId } = JSON.parse(config.data);
-//   const productToAdd = ProductsData.find(product => product.id === productId);
-
-//   if (!productToAdd) {
-//     return [404, { error: 'Product not found' }];
-//   }
-
-//   // Simulate a delay before adding to cart (optional)
-//   return [200, productToAdd];
-// });
 
 export default ProductsData;

@@ -3,7 +3,19 @@ import  { createContext, useState, useEffect, ReactNode, Dispatch, SetStateActio
 import { BlogPostType, BlogType } from '../../types/apps/blog';
 import React from "react";
 import useSWRMutation from 'swr/mutation'
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
+import {http , HttpResponse} from "msw"
+import { BlogPost } from 'src/api/blog/blogData';
+import { getFetcher, postFetcher } from 'src/api/globalFetcher';
+
+// API Urls
+
+// get request for blogs
+let getBlogsUrl = '/api/data/blog/BlogPosts';
+// Post request
+let postBlogUrl = '/api/data/blog/post/add';
+
+
 
 // Define BlogContextProps interface
 export interface BlogContextProps {
@@ -11,13 +23,40 @@ export interface BlogContextProps {
     sortBy: string;
     selectedPost: BlogPostType | null;
     isLoading: boolean;
+    error: string;
     setPosts: Dispatch<SetStateAction<BlogPostType[]>>;
     setSortBy: Dispatch<SetStateAction<string>>;
     setSelectedPost: Dispatch<SetStateAction<BlogPostType | null>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
+    setError: Dispatch<SetStateAction<any>>;
     addComment: (postId: number, newComment: BlogType) => void;
     fetchPostByTitle: (title: string) => Promise<void>;
 }
+
+
+
+// Mocked Apis
+export const Bloghandlers = [
+
+    // Mock api endpoint to fetch all blogposts
+    http.get(getBlogsUrl,() => {
+      return  HttpResponse.json([200, BlogPost])
+    }),
+  
+    // Mock api endpoint to add post info
+    http.post(postBlogUrl , async ({request}) => {
+        try{
+          const { postId, comment } = await request.json() as { postId: number , comment: string};
+          const postIndex = BlogPost.findIndex((x) => x.id === postId);
+          const post = BlogPost[postIndex];
+          const cComments = post.comments || [];
+          post.comments = [comment, ...cComments];
+          return HttpResponse.json([200, { posts: [...BlogPost] }]);
+        }catch(error){
+           return HttpResponse.json([500, { message: 'Internal server error' }])
+        }
+    }) 
+  ]
 
 // Create context with default values
 export const BlogContext = createContext<BlogContextProps>({
@@ -25,10 +64,12 @@ export const BlogContext = createContext<BlogContextProps>({
     sortBy: 'newest',
     selectedPost: null,
     isLoading: true,
+    error: '',
     setPosts: () => { },
     setSortBy: () => { },
     setSelectedPost: () => { },
     setLoading: () => { },
+    setError: () => { },
     addComment: () => { },
     fetchPostByTitle: async () => { },
 });
@@ -39,39 +80,21 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [sortBy, setSortBy] = useState<string>('newest');
     const [selectedPost, setSelectedPost] = useState<BlogPostType | null>(null);
     const [isLoading, setLoading] = useState<boolean>(true);
-
-    // SWR fetcher functions
-
-    const getFetcher = (url:string) => fetch(url).then((res) => {
-        if(!res.ok){
-            throw new Error("Failed to fetch Blogs")
-        }else{
-            return res.json()
-        }
-    })
-
-    const postFetcher = (url:string,{arg}:{arg:any}) => fetch(url,{
-        method:"POST",
-        headers:{'Content-Type':"application/json"},
-        body:JSON.stringify(arg)
-    }).then((res) => {
-        if(!res.ok){
-            throw new Error("Failed to post blog data")
-        }else{
-            return res.json()
-        }
-    })
+    const [error, setError] = useState<any>('');
 
 
     // Fetch Post data from the API
-    const {data:BlogPostData} = useSWR('/api/data/blog/BlogPosts',getFetcher);
+    const {data:BlogPostData,isLoading:isPostsLoading,error:getBlogsError} = useSWR(getBlogsUrl,getFetcher);
 
     useEffect(() => {
         if(BlogPostData){
             setPosts(BlogPostData[1]);
-            setLoading(false);
+            setLoading(isPostsLoading);
         }else{
-            setLoading(false);
+            setLoading(isPostsLoading);
+        }
+        if(getBlogsError){
+            setError(getBlogsError);
         }
     }, [BlogPostData]);
 
@@ -85,14 +108,16 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
     // Fetches a specific blog post by its title from the API endpoint and updates the selected post in the state.
-    const {trigger:addBlogPostTrigger} = useSWRMutation("/api/data/blog/post" , postFetcher);
+    const {trigger:addBlogPostTrigger} = useSWRMutation(postBlogUrl , postFetcher);
 
     const fetchPostByTitle = async (title: string) => {
         try {
             const data = await addBlogPostTrigger({title});
+            mutate('/api/data/blog/BlogPosts');
             setSelectedPost(data[1].post);
         } catch (error) {
             console.error('Error fetching blog post:', error);
+            setError(error)
         }
     };
 
@@ -107,6 +132,8 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading,
         addComment,
         fetchPostByTitle,
+        error,
+        setError
     };
 
     return <BlogContext.Provider value={value}>{children}</BlogContext.Provider>;

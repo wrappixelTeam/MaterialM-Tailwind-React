@@ -3,7 +3,32 @@ import React from "react";
 import  { createContext, useState, useEffect } from 'react';
 import { ProductType } from '../../types/apps/eCommerce';
 import useSWRMutation from 'swr/mutation'
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
+import { http, HttpResponse } from "msw";
+import ProductsData from "src/api/eCommerce/ProductsData";
+
+// All Mocked Apis
+export const Ecommercehandlers = [
+
+    //  Mock api endpoint to get products
+    http.get('/api/data/eCommerce/ProductsData',() => {
+       return HttpResponse.json([200, ProductsData])
+    }),
+  
+     // Mock endpoint to add a product to the cart
+     http.post("/api/data/eCommerce/add", async ({request}) => {
+        try{
+           const {productId} = await request.json() as {productId : number};
+           const productToAdd = ProductsData.find(product => product.id === productId);
+           if (!productToAdd) {
+            return HttpResponse.json([404, { error: 'Product not found' }]);
+          }
+          return HttpResponse.json([200, productToAdd]) ;
+        }catch(error){
+          return HttpResponse.json([500, { message: 'Internal server error' }])
+        }
+     })
+  ]
 
 // Define ProductContextType based on imported types
 interface ProductContextType {
@@ -15,6 +40,7 @@ interface ProductContextType {
     selectedGender: string;
     selectedColor: string;
     loading: boolean;
+    error:any;
     cartItems: ProductType[];
     setProducts: React.Dispatch<React.SetStateAction<ProductType[]>>;
     setSearchProduct: React.Dispatch<React.SetStateAction<string>>;
@@ -24,6 +50,7 @@ interface ProductContextType {
     setSelectedGender: React.Dispatch<React.SetStateAction<string>>;
     setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setError: React.Dispatch<React.SetStateAction<any>>;
     setCartItems: React.Dispatch<React.SetStateAction<ProductType[]>>;
     deleteProduct: (productId: number | string) => void;
     searchProducts: (searchText: string) => void;
@@ -78,6 +105,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [selectedGender, setSelectedGender] = useState<string>('All');
     const [selectedColor, setSelectedColor] = useState<string>('All');
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<any>(null);
     const [cartItems, setCartItems] = useState(() => {
         // Check if localStorage is defined (for client-side rendering)
         if (typeof window !== 'undefined') {
@@ -90,16 +118,19 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
 
-    const { data: ProductsData } = useSWR('/api/data/eCommerce/ProductsData', getFetcher);
+    const { data: ProductsData , isLoading:isProductsLoading , error:productsError} = useSWR('/api/data/eCommerce/ProductsData', getFetcher);
     const {trigger: addProducTrigger} = useSWRMutation('/api/data/eCommerce/add' , postFetcher);
 
     // Fetch products data from the API 
     useEffect(() => {
         if(ProductsData){
             setProducts(ProductsData[1]);
-            setLoading(false);
+            setLoading(isProductsLoading);
         }else{
-            setLoading(false);
+            setLoading(isProductsLoading);
+        }
+        if(productsError){
+            setError(productsError);
         }
     }, [ProductsData]);
 
@@ -192,7 +223,9 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
             } else {
                 setCartItems([...cartItems, { ...productToAdd, qty: 1 }]);
             }
+            mutate('/api/data/eCommerce/ProductsData');
         } catch (error) {
+            setError(productsError);
             console.error('Error adding product to cart:', error);
         }
     };
@@ -255,6 +288,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 selectedGender,
                 selectedColor,
                 loading,
+                error,
                 cartItems,
                 setProducts,
                 setSearchProduct,
@@ -264,6 +298,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 setSelectedGender,
                 setSelectedColor,
                 setLoading,
+                setError,
                 setCartItems,
                 deleteProduct,
                 searchProducts,

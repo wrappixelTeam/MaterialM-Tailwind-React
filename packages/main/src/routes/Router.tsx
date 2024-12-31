@@ -39,12 +39,12 @@ const InvoiceList = Loadable(lazy(() => import('../views/apps/invoice/List')));
 const InvoiceCreate = Loadable(lazy(() => import('../views/apps/invoice/Create')));
 const InvoiceDetail = Loadable(lazy(() => import('../views/apps/invoice/Detail')));
 const InvoiceEdit = Loadable(lazy(() => import('../views/apps/invoice/Edit')));
-// const Notes = Loadable(lazy(() => import('../views/apps/notes/Notes')));
-// const Calendar = Loadable(lazy(() => import('../views/apps/calendar/BigCalendar')));
-// const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
-// const Tickets = Loadable(lazy(() => import('../views/apps/tickets/Tickets')));
-// const CreateTickets = Loadable(lazy(() => import('../views/apps/tickets/CreateTickets')));
-// const Kanban = Loadable(lazy(() => import('../views/apps/kanban/Kanban')));
+const Notes = Loadable(lazy(() => import('../views/apps/notes/Notes')));
+const Calendar = Loadable(lazy(() => import('../views/apps/calendar/BigCalendar')));
+const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
+const Tickets = Loadable(lazy(() => import('../views/apps/tickets/Tickets')));
+const CreateTickets = Loadable(lazy(() => import('../views/apps/tickets/CreateTickets')));
+const Kanban = Loadable(lazy(() => import('../views/apps/kanban/Kanban')));
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
@@ -82,12 +82,12 @@ const Router = [
       { path: '/apps/invoice/create', element: <InvoiceCreate /> },
       { path: '/apps/invoice/detail/:id', element: <InvoiceDetail /> },
       { path: '/apps/invoice/edit/:id', element: <InvoiceEdit /> },
-      // { path: '/apps/notes', element: <Notes /> },
-      // { path: '/apps/calendar', element: <Calendar /> },
-      // { path: '/apps/email', element: <Email /> },
-      // { path: '/apps/tickets', element: <Tickets /> },
-      // { path: '/apps/tickets/create', element: <CreateTickets /> },
-      // { path: '/apps/kanban', element: <Kanban /> },
+      { path: '/apps/notes', element: <Notes /> },
+      { path: '/apps/calendar', element: <Calendar /> },
+      { path: '/apps/email', element: <Email /> },
+      { path: '/apps/tickets', element: <Tickets /> },
+      { path: '/apps/tickets/create', element: <CreateTickets /> },
+      { path: '/apps/kanban', element: <Kanban /> },
 
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '*', element: <Navigate to="/auth/404" /> },

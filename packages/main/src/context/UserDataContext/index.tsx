@@ -2,8 +2,109 @@
 import  { createContext, useState, useEffect } from 'react';
 import { PostType, profiledataType } from '../../types/apps/userProfile';
 import React from "react";
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import useSWRMutation from 'swr/mutation';
+import { http, HttpResponse } from 'msw';
+import posts from 'src/api/userprofile/PostData';
+import { gallery, users } from 'src/api/userprofile/UsersData';
+import { getFetcher, postFetcher } from 'src/api/globalFetcher';
+
+// All Mocked UserProfile Apis
+export const UserProfileHandlers = [
+    // Api endpoint to fetch postData
+    http.get('/api/data/postData', () => {
+      return HttpResponse.json([200, posts])
+    }),
+  
+    // Api endpoint to add posts likes 
+    http.post('/api/data/posts/like' , async ({request}) => {
+       try{
+        const { postId } = await request.json() as {postId : number};
+        const postIndex = posts.findIndex((x) => x.id === postId);
+        const post = { ...posts[postIndex] };
+        post.data = { ...post.data };
+        post.data.likes = { ...post.data.likes };
+        post.data.likes.like = !post.data.likes.like;
+        post.data.likes.value = post.data.likes.like
+          ? post.data.likes.value + 1
+          : post.data.likes.value - 1;
+        posts[postIndex] = post;
+    
+        return HttpResponse.json([200, { posts: [...posts] }]);
+       }catch(error){
+      console.error(error);
+      return HttpResponse.json([500, { message: 'Internal server error' }]);
+       }
+    }),
+  
+    // Api endpoint to add comment 
+    http.post('/api/data/posts/comments/add' , async ({request}) => {
+       try{
+        const { postId, comment } = await request.json() as {postId:number , comment:any};
+        const postIndex = posts.findIndex((x) => x.id === postId);
+        const post = posts[postIndex];
+        const cComments = post.data.comments || [];
+        post.data.comments = [...cComments, comment];
+    
+        return HttpResponse.json([200, { posts: [...posts] }]);
+       }catch(error){
+      console.error(error);
+      return HttpResponse.json([500, { message: 'Internal server error' }]);
+       }
+    }),
+      // Api endpoint to add replies 
+      http.post('/api/data/posts/replies/add', async ({request}) => {
+        try{
+          const { postId, commentId, reply } = await request.json() as {postId:number , commentId : number, reply:any};
+          const postIndex = posts.findIndex((x) => x.id === postId);
+          const post = posts[postIndex];
+          const cComments = post.data.comments || [];
+          const commentIndex = cComments.findIndex((x) => x.id === commentId);
+          const comment = cComments[commentIndex];
+          if (comment && comment.data && comment.data.replies)
+            comment.data.replies = [...comment.data.replies, reply];
+      
+          return HttpResponse.json([200, { posts: [...posts] }]);
+        }catch(error){
+          console.error(error);
+          return HttpResponse.json([500, { message: 'Internal server error' }]);
+        }
+      }),
+  
+      // Api endpoint to add likes to replies
+      http.post('/api/data/posts/replies/like',async ({request}) => {
+         try{
+          const { postId, commentId } = await request.json() as {postId : number , commentId:number};
+          const postIndex = posts.findIndex((x) => x.id === postId);
+          const post = posts[postIndex];
+          const cComments = post.data.comments || [];
+          const commentIndex = cComments.findIndex((x) => x.id === commentId);
+          const comment = { ...cComments[commentIndex] };
+      
+          if (comment && comment.data && comment.data.likes)
+            comment.data.likes.like = !comment.data.likes.like;
+          if (comment && comment.data && comment.data.likes)
+            comment.data.likes.value = comment.data.likes.like
+              ? comment.data.likes.value + 1
+              : comment.data.likes.value - 1;
+          if (post && post.data && post.data.comments) post.data.comments[commentIndex] = comment;
+      
+          return HttpResponse.json([200, { posts: [...posts] }]);
+         }catch(error){
+          console.error(error);
+          return HttpResponse.json([500, { message: 'Internal server error' }]);
+         }
+      }),
+
+      http.get('/api/data/users',() => {
+        return HttpResponse.json([200, users])
+      }),
+
+      http.get('/api/data/gallery' , () => {
+        return HttpResponse.json([200, gallery])
+      })
+  ]
+
 
 // Define context type
 export type UserDataContextType = {
@@ -11,10 +112,13 @@ export type UserDataContextType = {
     users: any[];
     gallery: any[];
     loading: boolean;
+    error: any;
     profileData: profiledataType;
     followers: any[];
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setError: React.Dispatch<React.SetStateAction<any>>;
     addGalleryItem: (item: any) => void;
     addReply: (postId: number, commentId: number, reply: string) => void;
     likePost: (postId: number) => void;
@@ -34,6 +138,7 @@ const config = {
     followers: [],
     search: '',
     loading: true,
+    error:null
 };
 
 export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -43,6 +148,7 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const [followers, setFollowers] = useState<any[]>(config.followers);
     const [search, setSearch] = useState<string>(config.search);
     const [loading, setLoading] = useState<boolean>(config.loading);
+    const [error, setError] = useState<any>(config.error);
     const [profileData] = useState<profiledataType>({
         name: 'Mathew Anderson',
         role: 'Designer',
@@ -53,44 +159,23 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         followingCount: 2659,
     });
 
-    // Fetcher Functions
-
-    const getFetcher = (url:string) => fetch(url).then((res) => {
-        if(!res.ok){
-            throw new Error("Failed to fetch Data")
-        }else{
-            return res.json()
-        }
-    })
-
-    const postFetcher = (url:string , {arg}:{arg:any}) => fetch(url,{
-        method:"POST",
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(arg)
-    }).then((res) => {
-        if(!res.ok){
-            throw new Error("Failed to add data")
-        }else{
-            return res.json()
-        }
-    })
 
     // SWR Api Request
 
-    const {data:postData} = useSWR('/api/data/postData',getFetcher);
-    const {data:userData} = useSWR('/api/data/users',getFetcher);
-    const {data:galleryData} = useSWR('/api/data/gallery',getFetcher);
+    const {data:postData, isLoading:isPostDataLoading , error:postDataError} = useSWR('/api/data/postData',getFetcher);
+    const {data:userData, isLoading:isUserDataLoading , error:userDataError} = useSWR('/api/data/users',getFetcher);
+    const {data:galleryData, isLoading:isGalleryDataLoading , error:galleryDataError} = useSWR('/api/data/gallery',getFetcher);
     
 
     useEffect(() => {
-        if(postData && userData && galleryData){
-            setPosts(postData[1]);
+        if(postData) {setPosts(postData[1]); setLoading(isPostDataLoading)}else{setError(postDataError)};
+        if(userData) {
             setUsers(userData[1]);
-            setGallery(galleryData[1]);
             setFollowers(userData[1]);
-        }
-        setLoading(false);
-    }, []);
+             setLoading(isUserDataLoading)
+            }else{setError(userDataError)};
+        if(galleryData) {setGallery(galleryData[1]); setLoading(isGalleryDataLoading)}else{setError(galleryDataError)};
+    }, [postData,userData,galleryData]);
 
 
     // Function to add a new item to the gallery
@@ -129,11 +214,12 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
              let status = response[0];
 
             if (status === 200) {
-                const updatedPosts = response.data[1].posts;
+                const updatedPosts = response[1].posts;
                 setPosts(updatedPosts);
             } else {
                 console.error('Failed to add comment:', response[1].message);
             }
+            mutate('/api/data/postData');
         } catch (error) {
             console.error('Error adding comment:', error);
         }
@@ -157,6 +243,7 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             } else {
                 console.error('Failed to add reply:', response[1].message);
             }
+            mutate('/api/data/postData');
         } catch (error) {
             console.error('Error adding reply:', error);
         }
@@ -175,6 +262,7 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             } else {
                 console.error('Failed to like post:', response[1].message);
             }
+            mutate('/api/data/postData');
         } catch (error) {
             console.error('Error liking post:', error);
         }
@@ -193,6 +281,7 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             } else {
                 console.error('Failed to like reply:', response[1].message);
             }
+            mutate('/api/data/postData');
         } catch (error) {
             console.error('Error liking reply:', error);
         }
@@ -204,6 +293,7 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             users,
             gallery,
             loading,
+            error,
             profileData,
             addGalleryItem,
             addReply,
@@ -213,6 +303,8 @@ export const UserDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             followers: filterFollowers(),
             toggleFollow,
             setSearch,
+            setLoading,
+            setError,
             search
         }}>
             {children}

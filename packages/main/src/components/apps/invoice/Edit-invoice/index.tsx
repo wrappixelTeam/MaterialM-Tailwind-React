@@ -16,7 +16,12 @@ const EditInvoicePage = () => {
   
   const location = useLocation();
   const pathName = location.pathname;
-  const getTitle = pathName.split("/").pop();
+  console.log(pathName);
+  let getTitle =  pathName.split("/").pop();
+  if(getTitle){
+    getTitle = decodeURIComponent(getTitle);
+  }
+
 
   const navigate = useNavigate();
 

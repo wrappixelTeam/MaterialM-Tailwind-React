@@ -1,4 +1,4 @@
-import {http, HttpResponse} from "msw";
+
 import { sub } from 'date-fns';
 import { Chance } from 'chance';
 import { uniqueId } from 'lodash';
@@ -266,12 +266,6 @@ const gallery = [
   },
 ];
 
-export const UserDatahandlers =[
-  http.get('/api/data/users',() => {
-    return HttpResponse.json([200, users])
-  }),
-  http.get('/api/data/gallery' , () => {
-    return HttpResponse.json([200, gallery])
-  })
-]
+
+export {users,gallery}
 

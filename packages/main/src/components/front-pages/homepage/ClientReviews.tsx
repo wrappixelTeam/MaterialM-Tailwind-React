@@ -49,7 +49,7 @@ const ClientReviews = () => {
     swipeToSlide: true,
     dots: false,
     arrows: false, // Disable default arrows to use custom ones
-    beforeChange: (oldIndex: any, newIndex: React.SetStateAction<number>) =>
+    beforeChange: (_oldIndex: any, newIndex: React.SetStateAction<number>) =>
       setCurrentSlide(newIndex),
   };
 

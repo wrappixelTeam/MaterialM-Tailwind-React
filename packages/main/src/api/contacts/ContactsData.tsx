@@ -9,7 +9,7 @@ import user7 from '/src/assets/images/profile/user-7.jpg';
 import user8 from '/src/assets/images/profile/user-8.jpg';
 import user10 from "/src/assets/images/profile/user-10.jpg";
 import user9 from "/src/assets/images/profile/user-9.jpg";
-import {http , HttpResponse} from "msw"
+
 
 const chance = new Chance();
 
@@ -466,68 +466,9 @@ export const ContactList: ContactType[] = [
   },
 ];
 
-const fakeRequest = (time: Date | any) => {
+export const fakeRequest = (time: Date | any) => {
   return new Promise((res) => setTimeout(res, time));
 };
-
-
-export const Contacthandlers =[
-
-  // Mock API endpoint to add a get contacts
-  http.get("/api/data/contacts/contactsData",() => {
-    return HttpResponse.json(ContactList)
-  }),
-  
-// Mock API endpoint to add a new contact
-  http.post("/api/data/contacts/addContact", async ({request}) => {
-    try{
-      await fakeRequest(1000);
-      let newContact = await request.json() as ContactType ;
-        newContact.id = ContactList.length + 1;
-        ContactList.push(newContact);
-         return HttpResponse.json([200, newContact])
-    }catch(error){
-      console.log(error);
-      return HttpResponse.json([500, { message: 'Internal server error' }])
-    }
-  }),
-
-  // Mock API endpoint to delete a contact
-  http.delete("/api/data/contacts/deleteContact" , async ({request}) => {
-    try{
-      let {data} = await request.json() as {data:any} ;
-      const contactIndex = ContactList.findIndex(contact => contact.id === data.contactId);
-      if (contactIndex !== -1) {
-        ContactList.splice(contactIndex, 1);
-        return HttpResponse.json([200, ContactList]);
-      } else {
-        return HttpResponse.json([404, { message: 'Contact not found' }]);
-      }
-    }catch(error){
-      console.log(error);
-      return HttpResponse.json([500, { message: 'Internal server error' }])
-    }
-  }),
-
-  // Mock API endpoint to update a contact
-
-  http.put("/api/data/contacts/updateContact" , async ({request}) => {
-    try{
-      let updatedContactData = await request.json() as ContactType ;
-      const updatedContactIndex = ContactList.findIndex(contact => contact.id === updatedContactData.id);
-      if (updatedContactIndex !== -1) {
-        ContactList[updatedContactIndex] = { ...ContactList[updatedContactIndex], ...updatedContactData };
-        return HttpResponse.json([200, ContactList[updatedContactIndex]]);
-      } else {
-        return HttpResponse.json([404, { message: 'Contact not found' }]);
-      }
-    }catch(error){
-      console.log(error);
-      return HttpResponse.json([500, { message: 'Internal server error' }])
-    }
-  })
-
-]
 
 
 export default ContactList;

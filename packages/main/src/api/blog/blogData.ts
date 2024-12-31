@@ -20,7 +20,7 @@ import s8 from '/src/assets/images/blog/blog-img8.jpg';
 import s9 from '/src/assets/images/blog/blog-img9.jpg';
 import s10 from '/src/assets/images/blog/blog-img10.jpg';
 import s11 from '/src/assets/images/blog/blog-img11.jpg';
-import {http , HttpResponse} from "msw";
+
 
 const chance = new Chance();
 
@@ -247,47 +247,5 @@ const BlogPost: BlogPostType[] = [
   },
 ];
 
-export const Bloghandlers = [
 
-  // Mock api endpoint to fetch all blogposts
-  http.get("/api/data/blog/BlogPosts",() => {
-    return  HttpResponse.json([200, BlogPost])
-  }),
-
-  // Mock api endpoint to add post info
-  http.post('/api/data/blog/post/add' , async ({request}) => {
-      try{
-        const { postId, comment } = await request.json() as { postId: number , comment: string};
-        const postIndex = BlogPost.findIndex((x) => x.id === postId);
-        const post = BlogPost[postIndex];
-        const cComments = post.comments || [];
-        post.comments = [comment, ...cComments];
-        return HttpResponse.json([200, { posts: [...BlogPost] }]);
-      }catch(error){
-         return HttpResponse.json([500, { message: 'Internal server error' }])
-      }
-  }) 
-]
-
-
-// mock.onGet("/api/data/blog/BlogPosts").reply(() => {
-//   return [200, BlogPost];
-// });
-
-// // ----------------------------------------------------------------------
-
-// mock.onPost("/api/data/blog/post/add").reply((config) => {
-//   try {
-//     const { postId, comment } = JSON.parse(config.data);
-//     const postIndex = BlogPost.findIndex((x) => x.id === postId);
-//     const post = BlogPost[postIndex];
-//     const cComments = post.comments || [];
-//     post.comments = [comment, ...cComments];
-
-//     return [200, { posts: [...BlogPost] }];
-//   } catch (err) {
-//     console.error(err);
-
-//     return [500, { message: "Internal server error" }];
-//   }
-// });
+export {BlogComment, BlogPost}

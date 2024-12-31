@@ -13,31 +13,114 @@
 }
 
 /* Calendar */
-.rbc-event.event-azure {
-  background-color: var(--color-primary);
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
+  padding: 10px 10px !important;
+  font-weight: 600;
+  font-size: 13px;
+
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
 }
 
 .rbc-event.event-primary {
-  background-color: var(--color-primary);
-  ;
+  background-color: var(--color-lightprimary) !important;
+  color:var(--color-primary);
+  position:relative
+  
+}
+.rbc-event.event-primary ::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-primary);
+  top: 0;
+}
+
+.rbc-toolbar-label {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 18px;
 }
 
 .rbc-event.event-default {
-  background-color: var(--color-secondary);
+  background-color: var(--color-lightsecondary) !important;
+  color:var(--color-secondary);
+  position:relative
+}
+.rbc-event.event-default::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-secondary) !important;
+  top: 0;
+}
+.rbc-event.event-azure {
+  background-color: var(--color-lightprimary) !important;
+  color:var(--color-primary);
+  position:relative
+}
+
+.rbc-event.event-azure::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-primary) !important;
+  top: 0;
 }
 
 .rbc-event.event-red {
-  background-color: var(--color-error);
-  ;
+  background-color: var(--color-lighterror) !important;
+  color:var(--color-error);
+  position:relative
+  
+}
+.rbc-event.event-red ::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-error);
+  top: 0;
 }
 
 .rbc-event.event-green {
-  background-color: var(--color-success);
+  background-color: var(--color-lightsuccess) !important;
+  color:var(--color-success);
+  position:relative
+}
+.rbc-event.event-green::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-success) !important;
+  top: 0;
 }
 
 .rbc-event.event-warning {
-  background-color: var(--color-warning);
-  ;
+  background-color: var(--color-lightwarning) !important;
+  color:var(--color-warning);
+  position:relative
+}
+.rbc-event.event-warning::before{
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  content: '';
+  left: 0;
+  background-color:var(--color-warning) !important;
+  top: 0;
 }
 
 .rbc-off-range-bg {

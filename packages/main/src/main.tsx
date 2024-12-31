@@ -8,7 +8,7 @@ import './utils/i18n';
 import { DashboardContextProvider } from './context/DashboardContext/DashboardContext.tsx'
 
 async function deferRender(){
-  const {worker} = await import("./mocks/browser.ts");
+  const {worker} = await import("./api/mocks/browser.ts");
   return worker.start({
     onUnhandledRequest: 'bypass',
   });

@@ -44,11 +44,12 @@ function CreateInvoice() {
 
   const calculateTotals = (orders: any[]) => {
     let subtotal = 0;
+    let totalCost = 0;
 
     orders.forEach(order => {
       const unitPrice = parseFloat(order.unitPrice) || 0;
       const units = parseInt(order.units) || 0;
-      const totalCost = unitPrice * units;
+       totalCost = unitPrice * units;
 
       subtotal += totalCost;
       order.unitTotalPrice = totalCost;
@@ -57,7 +58,7 @@ function CreateInvoice() {
     const vat = subtotal * 0.1;
     const grandTotal = subtotal + vat;
 
-    return { subtotal, vat, grandTotal };
+    return { subtotal, vat, grandTotal,totalCost };
   };
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
@@ -115,6 +116,7 @@ function CreateInvoice() {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
+      console.log("mera putra" , formData)
       await addInvoice(formData);
       setFormData({
         id: 0,

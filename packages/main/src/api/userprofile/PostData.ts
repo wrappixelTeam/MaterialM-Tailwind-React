@@ -1,6 +1,5 @@
 import { PostType } from '../../types/apps/userProfile';
 import { Chance } from 'chance';
-import {http, HttpResponse} from "msw";
 import user2 from '/src/assets/images/profile/user-2.jpg';
 import user3 from '/src/assets/images/profile/user-3.jpg';
 import user4 from '/src/assets/images/profile/user-4.jpg';
@@ -174,92 +173,7 @@ const posts: PostType[] = [
   },
 ];
 
-export const UserProfileHandlers = [
-  // Api endpoint to fetch postData
-  http.get('/api/data/postData', () => {
-    return HttpResponse.json([200, posts])
-  }),
 
-  // Api endpoint to add posts likes 
-  http.post('/api/data/posts/like' , async ({request}) => {
-     try{
-      const { postId } = await request.json() as {postId : number};
-      const postIndex = posts.findIndex((x) => x.id === postId);
-      const post = { ...posts[postIndex] };
-      post.data = { ...post.data };
-      post.data.likes = { ...post.data.likes };
-      post.data.likes.like = !post.data.likes.like;
-      post.data.likes.value = post.data.likes.like
-        ? post.data.likes.value + 1
-        : post.data.likes.value - 1;
-      posts[postIndex] = post;
-  
-      return HttpResponse.json([200, { posts: [...posts] }]);
-     }catch(error){
-    console.error(error);
-    return HttpResponse.json([500, { message: 'Internal server error' }]);
-     }
-  }),
-
-  // Api endpoint to add comment 
-  http.post('/api/data/posts/comments/add' , async ({request}) => {
-     try{
-      const { postId, comment } = await request.json() as {postId:number , comment:any};
-      const postIndex = posts.findIndex((x) => x.id === postId);
-      const post = posts[postIndex];
-      const cComments = post.data.comments || [];
-      post.data.comments = [...cComments, comment];
-  
-      return HttpResponse.json([200, { posts: [...posts] }]);
-     }catch(error){
-    console.error(error);
-    return HttpResponse.json([500, { message: 'Internal server error' }]);
-     }
-  }),
-    // Api endpoint to add replies 
-    http.post('/api/data/posts/replies/add', async ({request}) => {
-      try{
-        const { postId, commentId, reply } = await request.json() as {postId:number , commentId : number, reply:any};
-        const postIndex = posts.findIndex((x) => x.id === postId);
-        const post = posts[postIndex];
-        const cComments = post.data.comments || [];
-        const commentIndex = cComments.findIndex((x) => x.id === commentId);
-        const comment = cComments[commentIndex];
-        if (comment && comment.data && comment.data.replies)
-          comment.data.replies = [...comment.data.replies, reply];
-    
-        return HttpResponse.json([200, { posts: [...posts] }]);
-      }catch(error){
-        console.error(error);
-        return HttpResponse.json([500, { message: 'Internal server error' }]);
-      }
-    }),
-
-    // Api endpoint to add likes to replies
-    http.post('/api/data/posts/replies/like',async ({request}) => {
-       try{
-        const { postId, commentId } = await request.json() as {postId : number , commentId:number};
-        const postIndex = posts.findIndex((x) => x.id === postId);
-        const post = posts[postIndex];
-        const cComments = post.data.comments || [];
-        const commentIndex = cComments.findIndex((x) => x.id === commentId);
-        const comment = { ...cComments[commentIndex] };
-    
-        if (comment && comment.data && comment.data.likes)
-          comment.data.likes.like = !comment.data.likes.like;
-        if (comment && comment.data && comment.data.likes)
-          comment.data.likes.value = comment.data.likes.like
-            ? comment.data.likes.value + 1
-            : comment.data.likes.value - 1;
-        if (post && post.data && post.data.comments) post.data.comments[commentIndex] = comment;
-    
-        return HttpResponse.json([200, { posts: [...posts] }]);
-       }catch(error){
-        console.error(error);
-        return HttpResponse.json([500, { message: 'Internal server error' }]);
-       }
-    })
-]
 
 
 export default posts;
